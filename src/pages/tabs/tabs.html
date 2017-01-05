@@ -1,0 +1,5 @@
+<ion-tabs selectedIndex="0">
+  <ion-tab [root]="tab1Root" tabTitle="Settings" tabIcon="cog"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Upload Status" tabIcon="cloud-upload" tabBadge="{{getPendingUploads()}}"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Share Photos" tabIcon="share-alt"></ion-tab>
+</ion-tabs>
