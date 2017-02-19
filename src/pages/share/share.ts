@@ -24,7 +24,7 @@ export class SharePage {
     }
 
     ImagePicker.getPictures(options).then(
-      file_uris => this.navCtrl.push(GalleryPage, { images: file_uris }),
+      file_uris => this.navCtrl.push(GalleryPage, { "images" : file_uris }),
       err => console.log("Uh oh", err)
     );
   }
