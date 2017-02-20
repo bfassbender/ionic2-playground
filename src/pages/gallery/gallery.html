@@ -14,5 +14,9 @@
 
 
 <ion-content padding>
-
+  <p>
+    <button ion-button (click)="uploadPhoto()">Upload</button>
+  </p>
+  <progress value="{{uploadProgress}}" max="100"></progress>
+  <span>Progress: {{uploadProgress}}%</span>
 </ion-content>

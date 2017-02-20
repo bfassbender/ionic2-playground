@@ -1,6 +1,6 @@
 {
-  "name": "ionic2-starter",
-  "app_id": "",
+  "name": "SmileCube-Share",
+  "app_id": "de.webcoders.smilecube.share",
   "v2": true,
   "typescript": true
 }
