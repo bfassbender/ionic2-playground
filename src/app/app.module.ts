@@ -10,6 +10,7 @@ import { GalleryPage } from '../pages/gallery/gallery';
 
 import { PhotoBuffer } from '../providers/photo-buffer';
 import { PhotoUploader } from '../providers/photo-uploader';
+import { ConfigProvider } from '../providers/config-provider';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,6 @@ import { PhotoUploader } from '../providers/photo-uploader';
     TabsPage,
     GalleryPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, PhotoBuffer, PhotoUploader]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, PhotoBuffer, PhotoUploader, ConfigProvider]
 })
 export class AppModule {}

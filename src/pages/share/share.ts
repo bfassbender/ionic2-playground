@@ -18,8 +18,8 @@ export class SharePage {
   openCameraRoll() {
     let options = {
       maximumImagesCount: 1,
-      width: 1500,
-      height: 1500,
+      width: 4000,
+      height: 4000,
       quality: 95
     }
 

@@ -2,6 +2,9 @@ import { Component, NgZone} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Transfer, FileUploadOptions, File } from 'ionic-native';
 
+import { ConfigProvider } from '../../providers/config-provider';
+import { ApiConfig } from '../../providers/api-config';
+
 
 declare var cordova: any;
 
@@ -11,11 +14,11 @@ declare var cordova: any;
 })
 export class GalleryPage {
 
+  apiConfig: ApiConfig;
   fileSystem:string = cordova.file.applicationDirectory;
-
   uploadProgress: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private ngZone: NgZone) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public configProvider: ConfigProvider, private ngZone: NgZone) {
     console.log('constructor GalleryPage');
     
     File.checkDir(this.fileSystem, 'www/assets/img')
@@ -31,6 +34,9 @@ export class GalleryPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GalleryPage');
+    this.apiConfig = this.configProvider.getApiConfig();
+    console.log("ApiConfig assigned");
+    console.log(this.apiConfig);
   }
 
   uploadPhoto() {
@@ -40,7 +46,9 @@ export class GalleryPage {
     options = {
       fileName : "ErsterVersuch.jpg",
       params : {
-        //access params go here
+        "apikey" : this.apiConfig.apikey,
+        "galerieCode" : this.apiConfig.galerieCode,
+        "subFolder" : this.apiConfig.subFolder
       }
     };
 
@@ -55,9 +63,7 @@ export class GalleryPage {
     });
 
     transfer
-      //this.navParams.get("images")[0]
-      //this.fileSystem + "www/assets/img/portrait-sample.jpg"
-      .upload(this.navParams.get("images")[0], "https://www.portrait-archiv.com/rest/uploadService/uploadToFolder", options)
+      .upload(this.navParams.get("images")[0], encodeURI(this.apiConfig.url) , options)
       .then(
           (data) => {
             console.log(data);
