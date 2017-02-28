@@ -16,7 +16,7 @@ export class ConfigProvider {
       .map(res => res.json() as ApiConfig)
       .subscribe(config => {
         this.apiConfig = config;
-        console.log('API Config loaded');
+        console.log('ConfigProvider: API Config loaded ' + JSON.stringify(this.apiConfig));
     });
   }
 
