@@ -40,8 +40,8 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-file-transfer",
     {
-      "locator": "https://github.com/wymsee/cordova-imagePicker",
-      "id": "cordova-plugin-image-picker"
+      "locator": "https://github.com/Telerik-Verified-Plugins/ImagePicker.git",
+      "id": "com.synconset.imagepicker"
     }
   ],
   "cordovaPlatforms": [
