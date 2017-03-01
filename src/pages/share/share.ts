@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
-import { ImagePicker } from 'ionic-native';
+import { ImagePicker, ImagePickerOptions } from 'ionic-native';
 
 import { GalleryPage } from '../gallery/gallery';
 
@@ -16,17 +16,18 @@ export class SharePage {
   }
 
   openCameraRoll() {
-    let options = {
-      maximumImagesCount: 1,
-      width: 4000,
-      height: 4000,
-      quality: 95
+    let options: ImagePickerOptions = {
+      maximumImagesCount: 4,
+      width: 3000,
+      height: 3000,
+      quality: 90
     }
 
+
     ImagePicker.getPictures(options).then(
-      file_uris => {
-        console.log("Got some Images:" + file_uris);
-        this.navCtrl.push(GalleryPage, { "images" : file_uris });
+      photo_uris => {
+        console.log("SharePage: Got image uris. Forwarding to Gallery Page...");
+        this.navCtrl.setRoot(GalleryPage, { "photo_uris" : photo_uris });
       },
       err => {
         console.log("Uh oh", err);

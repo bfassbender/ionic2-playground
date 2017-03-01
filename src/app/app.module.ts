@@ -8,6 +8,8 @@ import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { GalleryPage } from '../pages/gallery/gallery';
 
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
+
 import { PhotoBuffer } from '../providers/photo-buffer';
 import { PhotoUploader } from '../providers/photo-uploader';
 import { ConfigProvider } from '../providers/config-provider';
@@ -19,7 +21,8 @@ import { ConfigProvider } from '../providers/config-provider';
     ProgressPage,
     SettingsPage,
     TabsPage,
-    GalleryPage
+    GalleryPage,
+    ProgressBarComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)

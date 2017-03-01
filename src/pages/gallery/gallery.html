@@ -1,9 +1,3 @@
-<!--
-  Generated template for the Gallery page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -14,9 +8,10 @@
 
 
 <ion-content padding>
-  <p>
-    <button ion-button (click)="uploadPhoto()">Upload</button>
-  </p>
-  <progress value="{{uploadProgress}}" max="100"></progress>
-  <span>Progress: {{uploadProgress}}%</span>
+  <p>Uploading image {{current_photo_index}} of {{total_to_upload}}...</p>
+  <img src="{{photo_uris[current_photo_index - 1]}}"/>
+  <progress-bar [progress]="uploadProgress"></progress-bar>
+  <div [hidden]="state_uploading">
+    <button ion-button block on-tap="done()">Back to sharing</button>
+  </div> 
 </ion-content>
