@@ -24,7 +24,6 @@ export class GalleryPage {
   photo_uris: Array<string>;
 
   private apiConfig: ApiConfig;
-  private fileUploadOptions: FileUploadOptions;
   private transfer: Transfer;
 
   constructor(platform:Platform, private navCtrl: NavController, private navParams: NavParams, private configProvider: ConfigProvider, private ngZone: NgZone, private alertCtrl: AlertController) {
@@ -51,9 +50,14 @@ export class GalleryPage {
   private uploadPhoto(photo_uri: string) : void {
     console.info("GalleryPage uploading image: " + photo_uri);
 
-    this.transfer.upload(photo_uri, encodeURI(this.apiConfig.url) , this.fileUploadOptions)
+    let fileEnding = photo_uri.substring(photo_uri.lastIndexOf('.'));
+    let uploadOptions = this.fileUploadOptionsWithDefaultValues(fileEnding);
+
+    console.info(JSON.stringify(uploadOptions));
+
+    this.transfer.upload(photo_uri, encodeURI(this.apiConfig.url) , uploadOptions)
       .then((result: FileUploadResult) => {
-        this.success(result);
+        this.success(result); 
       }).catch((error: FileTransferError) => {
         this.failed(error);
       }); 
@@ -68,7 +72,7 @@ export class GalleryPage {
       this.uploadPhoto(this.photo_uris[this.current_photo_index - 1]);
     } else {
       this.state_uploading = false;
-      console.info("GalleryPage upload comleted. Uploaded " + this.total_to_upload + " images.");
+      console.info("GalleryPage upload completed. Uploaded " + this.total_to_upload + " images.");
     }
   }
 
@@ -78,9 +82,8 @@ export class GalleryPage {
   }
 
   private configureFileTransfer() {
-
     this.transfer = new Transfer();
-    
+
     this.transfer.onProgress((progressEvent: ProgressEvent) => {
       this.ngZone.run(() => {
         if(progressEvent.lengthComputable) {
@@ -90,13 +93,16 @@ export class GalleryPage {
         }
       });
     });
+  }
 
-    this.fileUploadOptions = {
+  private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : FileUploadOptions{
+    return {
       params : {
         "apikey" : this.apiConfig.apikey,
         "galerieCode" : this.apiConfig.galerieCode,
         "subFolder" : this.apiConfig.subFolder
-      }
+      },
+      fileName: this.generateUuid() + fileEnding,
     };
   }
 
@@ -107,6 +113,14 @@ export class GalleryPage {
       buttons: ['Dismiss']
     });
     alert.present();
+  }
+
+  // Relies on Math.random(). If better randomness needed, switch to e.g. node_uuid
+  private generateUuid() : string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
   }
 
   done () : void  {
