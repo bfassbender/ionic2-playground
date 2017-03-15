@@ -78,6 +78,7 @@ export class GalleryPage {
 
   private failed (err: FileTransferError) : void {
     console.error("Upload failed for file " + err.source + ". " + JSON.stringify(err));
+    this.uploadProgress = 0;
     this.alertUser("Upload failed", "Could not upload Image to Server. Error Code: " + err.code + ", Status Code: " + err.http_status);
   }
 
