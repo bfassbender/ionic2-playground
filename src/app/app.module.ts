@@ -10,7 +10,7 @@ import { GalleryPage } from '../pages/gallery/gallery';
 
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
-import { PhotoBuffer } from '../providers/photo-buffer';
+import { UploadQueue } from '../providers/upload-queue';
 import { PhotoUploader } from '../providers/photo-uploader';
 import { ConfigProvider } from '../providers/config-provider';
 
@@ -36,6 +36,6 @@ import { ConfigProvider } from '../providers/config-provider';
     TabsPage,
     GalleryPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, PhotoBuffer, PhotoUploader, ConfigProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, UploadQueue, PhotoUploader, ConfigProvider]
 })
 export class AppModule {}
