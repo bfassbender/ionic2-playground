@@ -15,7 +15,7 @@ export class SettingsPage {
   ionViewDidEnter() {
     this.platform.ready().then(() => {
       GoogleAnalytics.trackView("Settings Page").catch(err => {
-        console.error("Uh-oh... " + JSON.stringify(err));
+        console.error("GA Tracking failed: " + JSON.stringify(err));
       });        
     });
     console.info("SettingsPage: ionViewDidEnter");

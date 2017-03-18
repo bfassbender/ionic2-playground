@@ -15,10 +15,10 @@ export class ProgressPage {
     ionViewDidEnter() {
     this.platform.ready().then(() => {
       GoogleAnalytics.trackView("Progress Page").catch(err => {
-        console.error("Uh-oh... " + JSON.stringify(err));
+        console.error("GA Tracking failed: " + JSON.stringify(err));
       });        
     });
-    console.info("ProgressPage: ionViewDidEnter");
+    console.debug("ProgressPage: ionViewDidEnter");
   }
 
 }

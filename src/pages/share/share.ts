@@ -16,11 +16,9 @@ export class SharePage {
 
   ionViewDidEnter() {
     this.platform.ready().then(() => {
-      GoogleAnalytics.trackView("Share Page").catch(err => {
-        console.error("Uh-oh... " + JSON.stringify(err));
-      });        
+      GoogleAnalytics.trackView("Share Page").catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});        
     });
-    console.info("SharePage: ionViewDidEnter");
+    console.debug("SharePage: ionViewDidEnter");
   }
 
   openCameraRoll() {
@@ -38,7 +36,9 @@ export class SharePage {
         this.navCtrl.setRoot(GalleryPage, { "photo_uris" : photo_uris });
       },
       err => {
-        console.log("Uh oh", err);
+        let logString = "ImagePicker.getPictures failed: " + JSON.stringify(err);
+        GoogleAnalytics.trackException(logString ,false).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
+        console.log(logString);
       }
     );
   }

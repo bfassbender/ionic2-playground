@@ -49,10 +49,10 @@ export class GalleryPage {
   ionViewDidEnter() {
     this.platform.ready().then(() => {
       GoogleAnalytics.trackView("Upload Page").catch(err => {
-        console.error("Uh-oh... " + JSON.stringify(err));
+        console.error("GA Tracking failed: " + JSON.stringify(err));
       });        
     });
-    console.info("GalleryPage: ionViewDidEnter");
+    console.debug("GalleryPage: ionViewDidEnter");
   }
 
   private uploadPhoto(photo_uri: string) : void {
@@ -74,9 +74,7 @@ export class GalleryPage {
   private success(result: FileUploadResult) : void {
     console.info("GalleryPage upload successful. " + JSON.stringify(result));
 
-    this.platform.ready().then(() => 
-      GoogleAnalytics.trackEvent("Photo Upload", "success")
-    );
+    GoogleAnalytics.trackEvent("Photo", "upload successful", result.response , result.bytesSent).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
 
     if(this.current_photo_index < this.total_to_upload) {             
       this.current_photo_index++;
@@ -85,16 +83,14 @@ export class GalleryPage {
     } else {
       this.state_uploading = false;
       console.info("GalleryPage upload completed. Uploaded " + this.total_to_upload + " images.");
+      GoogleAnalytics.trackEvent("Photoset", "upload finished", "" , this.total_to_upload).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
     }
   }
 
   private failed (err: FileTransferError) : void {
-    console.error("Upload failed for file " + err.source + ". " + JSON.stringify(err));
-
-    this.platform.ready().then(() => 
-      GoogleAnalytics.trackException("Upload failed for file " + err.source + ". " + JSON.stringify(err), false)
-    );
-
+    let logString = "Upload failed for file " + err.source + ". " + JSON.stringify(err);
+    console.error(logString);
+    GoogleAnalytics.trackException(logString ,false).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
     this.uploadProgress = 0;
     this.alertUser("Upload failed", "Could not upload Image to Server. Error Code: " + err.code + ", Status Code: " + err.http_status);
   }
