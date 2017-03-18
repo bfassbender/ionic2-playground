@@ -1,6 +1,6 @@
 import { Component, NgZone} from '@angular/core';
 import { NavController, NavParams, Platform, AlertController} from 'ionic-angular';
-import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError } from 'ionic-native';
+import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, GoogleAnalytics } from 'ionic-native';
 
 import { ConfigProvider } from '../../providers/config-provider';
 import { ApiConfig } from '../../providers/api-config';
@@ -26,19 +26,18 @@ export class GalleryPage {
   private apiConfig: ApiConfig;
   private transfer: Transfer;
 
-  constructor(platform:Platform, private navCtrl: NavController, private navParams: NavParams, private configProvider: ConfigProvider, private ngZone: NgZone, private alertCtrl: AlertController) {
-    console.debug('GalleryPage: constructor started');
-    
+  constructor(private platform:Platform, private navCtrl: NavController, private navParams: NavParams, private configProvider: ConfigProvider, private ngZone: NgZone, private alertCtrl: AlertController) {
     this.photo_uris = navParams.get("photo_uris");
     if(!this.photo_uris || this.photo_uris.length == 0) {
       this.alertUser("Error", "No images selected to be uploaded.");
+      this.state_uploading = false;
       return;
     }
 
     this.total_to_upload = this.photo_uris.length;
     this.apiConfig = this.configProvider.getApiConfig();
 
-    console.debug('GalleryPage: constructor ended');
+    console.log("Hello from GalleryPage constructor!");
   }
 
   ionViewDidLoad() {
@@ -47,13 +46,22 @@ export class GalleryPage {
     this.uploadPhoto(this.photo_uris[this.current_photo_index - 1]);
   }
 
+  ionViewDidEnter() {
+    this.platform.ready().then(() => {
+      GoogleAnalytics.trackView("Upload Page").catch(err => {
+        console.error("Uh-oh... " + JSON.stringify(err));
+      });        
+    });
+    console.info("GalleryPage: ionViewDidEnter");
+  }
+
   private uploadPhoto(photo_uri: string) : void {
     console.info("GalleryPage uploading image: " + photo_uri);
 
     let fileEnding = photo_uri.substring(photo_uri.lastIndexOf('.'));
     let uploadOptions = this.fileUploadOptionsWithDefaultValues(fileEnding);
 
-    console.info(JSON.stringify(uploadOptions));
+    console.info("Using the following parameters for upload: " + JSON.stringify(uploadOptions));
 
     this.transfer.upload(photo_uri, encodeURI(this.apiConfig.url) , uploadOptions)
       .then((result: FileUploadResult) => {
@@ -65,6 +73,10 @@ export class GalleryPage {
 
   private success(result: FileUploadResult) : void {
     console.info("GalleryPage upload successful. " + JSON.stringify(result));
+
+    this.platform.ready().then(() => 
+      GoogleAnalytics.trackEvent("Photo Upload", "success")
+    );
 
     if(this.current_photo_index < this.total_to_upload) {             
       this.current_photo_index++;
@@ -78,6 +90,11 @@ export class GalleryPage {
 
   private failed (err: FileTransferError) : void {
     console.error("Upload failed for file " + err.source + ". " + JSON.stringify(err));
+
+    this.platform.ready().then(() => 
+      GoogleAnalytics.trackException("Upload failed for file " + err.source + ". " + JSON.stringify(err), false)
+    );
+
     this.uploadProgress = 0;
     this.alertUser("Upload failed", "Could not upload Image to Server. Error Code: " + err.code + ", Status Code: " + err.http_status);
   }

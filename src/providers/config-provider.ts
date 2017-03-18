@@ -1,26 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 import { ApiConfig } from './api-config';
 
 @Injectable()
 export class ConfigProvider {
 
-  private apiConfig: ApiConfig;
+  apiConfig : ApiConfig;
 
-  constructor(public http: Http) { }
+  constructor(public http: Http) {}
 
-  loadApiConfig() : void {
-    this.http.get('assets/config/api-params.json')
-      .map(res => res.json() as ApiConfig)
-      .subscribe(config => {
+  loadApiConfig() : Observable<ApiConfig> {
+    return this.http.get('assets/config/api-params.json')
+      .map(res => {
+        let config : ApiConfig = res.json() as ApiConfig;
         this.apiConfig = config;
-        console.log('ConfigProvider: API Config loaded ' + JSON.stringify(this.apiConfig));
-    });
+        console.log("Config loaded: " + JSON.stringify(this.apiConfig));
+        return config;
+      }
+    );
   }
 
-  getApiConfig() : ApiConfig {
-    return this.apiConfig;
+  public getApiConfig() : ApiConfig {
+    if( this.apiConfig ) {
+      return this.apiConfig;
+    }
+    else {
+      this.loadApiConfig().subscribe(config => {
+        return config;
+      })
+    }
   }
 }

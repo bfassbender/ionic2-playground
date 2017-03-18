@@ -8,10 +8,12 @@
 
 
 <ion-content padding>
-  <p>Uploading image {{current_photo_index}} of {{total_to_upload}}...</p>
-  <img src="{{photo_uris[current_photo_index - 1]}}"/>
-  <progress-bar [progress]="uploadProgress"></progress-bar>
+  <div [hidden]="!state_uploading">
+    <p>Uploading image {{current_photo_index}} of {{total_to_upload}}...</p>
+    <progress-bar [progress]="uploadProgress"></progress-bar>
+  </div>
   <div [hidden]="state_uploading">
     <button ion-button block on-tap="done()">Back to sharing</button>
   </div> 
+  <img src="{{photo_uris[current_photo_index - 1]}}"/>
 </ion-content>

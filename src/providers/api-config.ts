@@ -3,4 +3,5 @@ export interface ApiConfig {
     apikey: string;
     galerieCode: string;
     subFolder: string;
+    gaKey: string;
 }

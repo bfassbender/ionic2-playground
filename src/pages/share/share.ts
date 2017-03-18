@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
-import { ImagePicker, ImagePickerOptions } from 'ionic-native';
+import { NavController, Platform} from 'ionic-angular';
+import { ImagePicker, ImagePickerOptions, GoogleAnalytics } from 'ionic-native';
 
 import { GalleryPage } from '../gallery/gallery';
 
@@ -11,16 +11,24 @@ import { GalleryPage } from '../gallery/gallery';
 })
 export class SharePage {
 
-  constructor(private navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private platform: Platform) {
+  }
 
+  ionViewDidEnter() {
+    this.platform.ready().then(() => {
+      GoogleAnalytics.trackView("Share Page").catch(err => {
+        console.error("Uh-oh... " + JSON.stringify(err));
+      });        
+    });
+    console.info("SharePage: ionViewDidEnter");
   }
 
   openCameraRoll() {
     let options: ImagePickerOptions = {
       maximumImagesCount: 10
-      //,width: 3000
-      //,height: 3000
-      //,quality: 90
+      ,width: 3000
+      ,height: 3000
+      ,quality: 75
     }
 
 
