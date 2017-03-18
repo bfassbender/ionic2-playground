@@ -25,10 +25,10 @@ export class SharePage {
 
   openCameraRoll() {
     let options: ImagePickerOptions = {
-      maximumImagesCount: 10
-      ,width: 3000
-      ,height: 3000
-      ,quality: 75
+      maximumImagesCount: 20
+      //,width: 3000
+      //,height: 3000
+      //,quality: 75
     }
 
 
