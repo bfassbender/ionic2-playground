@@ -1,6 +1,6 @@
 {
-  "name": "SmileCube-Share",
-  "app_id": "de.webcoders.smilecube.share",
+  "name": "SnapShare",
+  "app_id": "de.webcoders.snapshare",
   "v2": true,
   "typescript": true
 }

@@ -1,5 +1,5 @@
 {
-  "name": "smilecube-share",
+  "name": "snapshare",
   "version": "0.0.1",
   "author": "Bernd Faßbender",
   "homepage": "https://www.github.com/bfassbender",
@@ -48,26 +48,17 @@
     "tslint-eslint-rules": "^3.4.0",
     "typescript": "2.0.9"
   },
-  "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    "cordova-plugin-console",
-    "cordova-plugin-statusbar",
-    "cordova-plugin-device",
-    "cordova-plugin-splashscreen",
-    "ionic-plugin-keyboard",
-    "cordova-plugin-file-transfer",
-    {
-      "locator": "https://github.com/mirulumam/cordova-imagePicker.git",
-      "id": "cordova-plugin-image-picker"
-    }
-  ],
+  "description": "SnapShare: Easily share your party pictures on portrait-archiv.com",
   "cordovaPlatforms": [
-    "ios",
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    },
     {
       "platform": "ios",
       "version": "",
       "locator": "ios"
     }
-  ],
-  "description": "SmileShare: Easily share your party pictures on portrait-archiv.com"
+  ]
 }
