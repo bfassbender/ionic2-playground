@@ -91,8 +91,9 @@ export class GalleryPage {
     let logString = "Upload failed for file " + err.source + ". " + JSON.stringify(err);
     console.error(logString);
     GoogleAnalytics.trackException(logString ,false).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
-    this.uploadProgress = 0;
     this.alertUser("Upload failed", "Could not upload Image to Server. Error Code: " + err.code + ", Status Code: " + err.http_status);
+    this.uploadProgress = 0;
+    this.state_uploading = false;
   }
 
   private configureFileTransfer() {
