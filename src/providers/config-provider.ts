@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
-import { ApiConfig } from './api-config';
+import { ApiConfig } from '../models/api-config';
 
 @Injectable()
 export class ConfigProvider {

@@ -3,7 +3,7 @@ import { NavController, NavParams, Platform, AlertController} from 'ionic-angula
 import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, GoogleAnalytics } from 'ionic-native';
 
 import { ConfigProvider } from '../../providers/config-provider';
-import { ApiConfig } from '../../providers/api-config';
+import { ApiConfig } from '../../models/api-config';
 
 import { SharePage } from '../share/share';
 
