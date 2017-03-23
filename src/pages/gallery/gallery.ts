@@ -52,8 +52,10 @@ export class GalleryPage {
 
   ionViewDidLoad() {
     console.debug("GalleryPage: ionViewDidLoad");
-    this.configureFileTransfer()
-    this.uploadPhoto(this.photo_uris[this.current_photo_index - 1]);
+    if(this.photo_uris.length > 0) {
+      this.configureFileTransfer()
+      this.uploadPhoto(this.photo_uris[this.current_photo_index - 1]);
+    }
   }
 
   ionViewDidEnter() {

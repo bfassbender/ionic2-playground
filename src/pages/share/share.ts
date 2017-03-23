@@ -38,7 +38,7 @@ export class SharePage {
 
     this.imagePicker.getPictures(options).then(
       photo_uris => {
-        console.log("SharePage: Got image uris. Forwarding to Gallery Page...");
+        console.log("SharePage: Got " + photo_uris.length + " image uris. Forwarding to Gallery Page...");
         this.navCtrl.setRoot(GalleryPage, { "photo_uris" : photo_uris });
       },
       err => {
