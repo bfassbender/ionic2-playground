@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { SettingsPage } from '../settings/settings';
 import { SharePage } from '../share/share';
 import { ProgressPage } from '../progress/progress';
-import { PhotoUploader } from '../../providers/photo-uploader';
+import { UploadQueue } from '../../providers/upload-queue';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -15,11 +15,11 @@ export class TabsPage {
   tab2Root: any = ProgressPage;
   tab3Root: any = SharePage;
 
-  constructor(private photoUploader: PhotoUploader) {
+  constructor(private uploadQueue : UploadQueue) {
 
   }
 
   getPendingUploads () {
-    return this.photoUploader.getPendingUploads();
+    return this.uploadQueue.getPendingUploads() || "";
   }
 }

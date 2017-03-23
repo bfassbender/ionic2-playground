@@ -1,5 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
 import { SharePage } from '../pages/share/share';
@@ -11,7 +12,6 @@ import { GalleryPage } from '../pages/gallery/gallery';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 import { UploadQueue } from '../providers/upload-queue';
-import { PhotoUploader } from '../providers/photo-uploader';
 import { ConfigProvider } from '../providers/config-provider';
 
 @NgModule({
@@ -25,7 +25,8 @@ import { ConfigProvider } from '../providers/config-provider';
     ProgressBarComponent
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -36,6 +37,6 @@ import { ConfigProvider } from '../providers/config-provider';
     TabsPage,
     GalleryPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, UploadQueue, PhotoUploader, ConfigProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, UploadQueue, ConfigProvider]
 })
 export class AppModule {}

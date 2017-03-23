@@ -31,7 +31,11 @@ export class UploadQueue {
     if (index > -1) {
       this.fileUrls.splice(index, 1);
     }
-  } 
+  }
+
+  public getPendingUploads() : number {
+    return this.fileUrls.length;
+  }
 
 }
 
