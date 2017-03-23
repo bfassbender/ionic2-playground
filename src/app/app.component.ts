@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen, GoogleAnalytics } from 'ionic-native';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -13,23 +15,27 @@ import { ApiConfig } from '../models/api-config';
 export class MyApp {
   rootPage = TabsPage;
 
-  constructor(platform: Platform, configProvider: ConfigProvider) {
+  constructor( private platform: Platform, 
+               private configProvider: ConfigProvider,
+               private statusBar : StatusBar,
+               private splashScreen : SplashScreen,
+               private ga: GoogleAnalytics) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       configProvider.loadApiConfig().subscribe( (apiConfig : ApiConfig) => {
-        GoogleAnalytics.startTrackerWithId(apiConfig.gaKey)
+        ga.startTrackerWithId(apiConfig.gaKey)
           .then(() => {
             console.log('Google analytics is ready now');
-            GoogleAnalytics.setAllowIDFACollection(true);
-            //GoogleAnalytics.setAnonymizeIp(true);
-            GoogleAnalytics.setAppVersion('0.0.1');
+            ga.setAllowIDFACollection(true);
+            ga.setAnonymizeIp(true);
+            ga.setAppVersion('0.0.1');
           })
           .catch(e => console.log('Error starting GoogleAnalytics', e)); 
       })
     
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      statusBar.styleDefault();
+      splashScreen.hide();
     });
   }
 }

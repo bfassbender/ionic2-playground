@@ -1,6 +1,7 @@
 import { Component, NgZone} from '@angular/core';
 import { NavController, NavParams, Platform, AlertController} from 'ionic-angular';
-import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, GoogleAnalytics } from 'ionic-native';
+import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, TransferObject } from '@ionic-native/transfer';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 import { ConfigProvider } from '../../providers/config-provider';
 import { ApiConfig } from '../../models/api-config';
@@ -24,9 +25,18 @@ export class GalleryPage {
   photo_uris: Array<string>;
 
   private apiConfig: ApiConfig;
-  private transfer: Transfer;
 
-  constructor(private platform:Platform, private navCtrl: NavController, private navParams: NavParams, private configProvider: ConfigProvider, private ngZone: NgZone, private alertCtrl: AlertController) {
+  
+
+  constructor(
+      private platform: Platform, 
+      private navCtrl: NavController, 
+      private navParams: NavParams, 
+      private configProvider: ConfigProvider, 
+      private transfer: Transfer, 
+      private ngZone: NgZone, 
+      private alertCtrl: AlertController, 
+      private ga: GoogleAnalytics) {
     this.photo_uris = navParams.get("photo_uris");
     if(!this.photo_uris || this.photo_uris.length == 0) {
       this.alertUser("Error", "No images selected to be uploaded.");
@@ -48,7 +58,7 @@ export class GalleryPage {
 
   ionViewDidEnter() {
     this.platform.ready().then(() => {
-      GoogleAnalytics.trackView("Upload Page").catch(err => {
+      this.ga.trackView("Upload Page").catch(err => {
         console.error("GA Tracking failed: " + JSON.stringify(err));
       });        
     });
@@ -62,8 +72,9 @@ export class GalleryPage {
     let uploadOptions = this.fileUploadOptionsWithDefaultValues(fileEnding);
 
     console.info("Using the following parameters for upload: " + JSON.stringify(uploadOptions));
-
-    this.transfer.upload(photo_uri, encodeURI(this.apiConfig.url) , uploadOptions)
+    
+    const fileTransfer: TransferObject = this.configureFileTransfer();
+    fileTransfer.upload(photo_uri, encodeURI(this.apiConfig.url) , uploadOptions)
       .then((result: FileUploadResult) => {
         this.success(result); 
       }).catch((error: FileTransferError) => {
@@ -74,7 +85,7 @@ export class GalleryPage {
   private success(result: FileUploadResult) : void {
     console.info("GalleryPage upload successful. " + JSON.stringify(result));
 
-    GoogleAnalytics.trackEvent("Photo", "upload successful", result.response , result.bytesSent).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
+    this.ga.trackEvent("Photo", "upload successful", result.response , result.bytesSent).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
 
     if(this.current_photo_index < this.total_to_upload) {             
       this.current_photo_index++;
@@ -83,23 +94,22 @@ export class GalleryPage {
     } else {
       this.state_uploading = false;
       console.info("GalleryPage upload completed. Uploaded " + this.total_to_upload + " images.");
-      GoogleAnalytics.trackEvent("Photoset", "upload finished", "" , this.total_to_upload).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
+      this.ga.trackEvent("Photoset", "upload finished", "" , this.total_to_upload).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
     }
   }
 
   private failed (err: FileTransferError) : void {
     let logString = "Upload failed for file " + err.source + ". " + JSON.stringify(err);
     console.error(logString);
-    GoogleAnalytics.trackException(logString ,false).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
+    this.ga.trackException(logString ,false).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
     this.alertUser("Upload failed", "Could not upload Image to Server. Error Code: " + err.code + ", Status Code: " + err.http_status);
     this.uploadProgress = 0;
     this.state_uploading = false;
   }
 
-  private configureFileTransfer() {
-    this.transfer = new Transfer();
-
-    this.transfer.onProgress((progressEvent: ProgressEvent) => {
+  private configureFileTransfer() : TransferObject {
+    let transferObject = this.transfer.create();
+    transferObject.onProgress((progressEvent: ProgressEvent) => {
       this.ngZone.run(() => {
         if(progressEvent.lengthComputable) {
           let progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
@@ -108,6 +118,7 @@ export class GalleryPage {
         }
       });
     });
+    return transferObject;
   }
 
   private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : FileUploadOptions{

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavController, Platform} from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
   selector: 'page-settings',
@@ -9,16 +9,18 @@ import { GoogleAnalytics } from 'ionic-native';
 })
 export class SettingsPage {
 
-  constructor(public navCtrl: NavController, private platform: Platform) {
+  constructor( public navCtrl: NavController, 
+               private platform: Platform,
+               private ga : GoogleAnalytics) {
   }
 
   ionViewDidEnter() {
     this.platform.ready().then(() => {
-      GoogleAnalytics.trackView("Settings Page").catch(err => {
+      this.ga.trackView("Settings Page").catch(err => {
         console.error("GA Tracking failed: " + JSON.stringify(err));
       });        
     });
-    console.info("SettingsPage: ionViewDidEnter");
+    console.debug("ProgressPage: ionViewDidEnter");
   }
 
 }

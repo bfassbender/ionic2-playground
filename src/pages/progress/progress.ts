@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavController, Platform} from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
   selector: 'page-progress',
@@ -9,12 +9,14 @@ import { GoogleAnalytics } from 'ionic-native';
 })
 export class ProgressPage {
 
-  constructor(public navCtrl: NavController, private platform: Platform) {
+  constructor( public navCtrl: NavController, 
+               private platform: Platform,
+               private ga : GoogleAnalytics) {
   }
 
-    ionViewDidEnter() {
+  ionViewDidEnter() {
     this.platform.ready().then(() => {
-      GoogleAnalytics.trackView("Progress Page").catch(err => {
+      this.ga.trackView("Progress Page").catch(err => {
         console.error("GA Tracking failed: " + JSON.stringify(err));
       });        
     });
