@@ -120,28 +120,32 @@ export class GalleryPage {
   }
 
   private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : Promise<FileUploadOptions> {
-    return this.settingsProvider.load().then(settings => {
-      return new Promise<FileUploadOptions>((resolve) => {
+
+    let settingsPromise = this.settingsProvider.load();
+
+    let promise : Promise<FileUploadOptions> = settingsPromise.then(
+      (settings) => {
+        
         let subFolder = this.apiConfig.subFolder;
         if(settings.userName) {
           subFolder = subFolder + " - " + settings.userName;
         }
 
-        resolve(<FileUploadOptions> {
+        return <FileUploadOptions> {
           params : {
             "apikey" : this.apiConfig.apikey,
             "galerieCode" : settings.veranstaltungsCode,
             "subFolder" : subFolder
           },
-          fileName: this.generateUuid() + fileEnding,
-        });
-      });
-    })
-    .catch(err => {
-      return new Promise<FileUploadOptions>((reject) => {
-        reject(err);
-      })
-    });
+          fileName: this.generateUuid() + fileEnding
+        }
+      },
+      (err) => {
+        throw new Error("Could not load settings: " + err);
+      }
+    );
+
+    return promise;
   }
 
   private alertUser(title: string, subtitle: string) {

@@ -36,11 +36,11 @@ export class SettingsPage {
   ionViewWillEnter() {
     this.settingsProvider.load().then(settings => {
       if(settings) {
-        console.debug(this.constructor.name + ": Loaded settings from storage - " + JSON.stringify(settings));
+        console.info(this.constructor.name + ": Loaded settings from storage - " + JSON.stringify(settings));
         this.settingsForm.setValue(settings);
       }
       else {
-        console.debug("No settings found in storage");
+        console.info("No settings found in storage");
       }
 
       // Watch the form for changes, and
