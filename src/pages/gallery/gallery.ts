@@ -5,10 +5,9 @@ import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, Trans
 import { ConfigProvider } from '../../providers/config-provider';
 import { ApiConfig } from '../../models/api-config';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
+import { SettingsProvider } from '../../providers/settings-provider';
 
 import { SharePage } from '../share/share';
-
-declare var cordova: any;
 
 @Component({
   selector: 'page-gallery',
@@ -36,7 +35,8 @@ export class GalleryPage {
       private transfer: Transfer, 
       private ngZone: NgZone, 
       private alertCtrl: AlertController, 
-      private gaTracker : GoogleAnalyticsTracker) {
+      private gaTracker : GoogleAnalyticsTracker,
+      private settingsProvider : SettingsProvider) {
     this.photo_uris = navParams.get("photo_uris");
     if(!this.photo_uris || this.photo_uris.length == 0) {
       this.alertUser("Error", "No images selected to be uploaded.");
@@ -67,17 +67,18 @@ export class GalleryPage {
     console.info("GalleryPage uploading image: " + photo_uri);
 
     let fileEnding = photo_uri.substring(photo_uri.lastIndexOf('.'));
-    let uploadOptions = this.fileUploadOptionsWithDefaultValues(fileEnding);
-
-    console.info("Using the following parameters for upload: " + JSON.stringify(uploadOptions));
-    
-    const fileTransfer: TransferObject = this.configureFileTransfer();
-    fileTransfer.upload(photo_uri, encodeURI(this.apiConfig.url) , uploadOptions)
+    this.fileUploadOptionsWithDefaultValues(fileEnding).then(uploadOptions => {
+      console.info("Using the following parameters for upload: " + JSON.stringify(uploadOptions));
+      
+      const fileTransfer: TransferObject = this.configureFileTransfer();
+      
+      fileTransfer.upload(photo_uri, encodeURI(this.apiConfig.url) , uploadOptions)
       .then((result: FileUploadResult) => {
         this.success(result); 
       }).catch((error: FileTransferError) => {
         this.failed(error);
       }); 
+    });
   }
 
   private success(result: FileUploadResult) : void {
@@ -118,15 +119,29 @@ export class GalleryPage {
     return transferObject;
   }
 
-  private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : FileUploadOptions{
-    return {
-      params : {
-        "apikey" : this.apiConfig.apikey,
-        "galerieCode" : this.apiConfig.galerieCode,
-        "subFolder" : this.apiConfig.subFolder
-      },
-      fileName: this.generateUuid() + fileEnding,
-    };
+  private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : Promise<FileUploadOptions> {
+    return this.settingsProvider.load().then(settings => {
+      return new Promise<FileUploadOptions>((resolve) => {
+        let subFolder = this.apiConfig.subFolder;
+        if(settings.userName) {
+          subFolder = subFolder + " - " + settings.userName;
+        }
+
+        resolve(<FileUploadOptions> {
+          params : {
+            "apikey" : this.apiConfig.apikey,
+            "galerieCode" : settings.veranstaltungsCode,
+            "subFolder" : subFolder
+          },
+          fileName: this.generateUuid() + fileEnding,
+        });
+      });
+    })
+    .catch(err => {
+      return new Promise<FileUploadOptions>((reject) => {
+        reject(err);
+      })
+    });
   }
 
   private alertUser(title: string, subtitle: string) {

@@ -7,17 +7,7 @@ import { Storage } from '@ionic/storage';
 export class SettingsProvider {
 
   constructor(private http: Http, private storage: Storage) {
-    console.log("Hello from " + this.constructor.name)
-    storage.ready().then(() => {
-
-       // set a key/value
-       storage.set('age', 47);
-
-       // Or to get a key/value pair
-       storage.get('age').then((val) => {
-         console.log('Your age is', val);
-      })
-    });
+    console.log("Hello from " + this.constructor.name);
   }
 
   save(settings: Object) {

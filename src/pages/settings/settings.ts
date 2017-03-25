@@ -24,10 +24,17 @@ export class SettingsPage {
     
     this.settingsForm = this.formBuilder.group({
       veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')])],
-      userName: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(20)])]
+      userName: ['', Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern('[a-zA-Z0-9äöüßÄÖÜ]*')], )]
     });
+  }
 
-    settingsProvider.load().then(settings => {
+  saveSettings() {
+    console.log(this.settingsForm.value);
+    this.settingsProvider.save(this.settingsForm.value);
+  }
+
+  ionViewWillEnter() {
+    this.settingsProvider.load().then(settings => {
       if(settings) {
         console.debug(this.constructor.name + ": Loaded settings from storage - " + JSON.stringify(settings));
         this.settingsForm.setValue(settings);
@@ -39,16 +46,8 @@ export class SettingsPage {
       // Watch the form for changes, and
       this.settingsForm.valueChanges.subscribe((v) => {
         this.isReadyToSave = this.settingsForm.valid;
-        console.log(this.settingsForm.controls['veranstaltungsCode'].status);
       });
     });
-  }
-
-
-
-  saveSettings() {
-    console.log(this.settingsForm.value);
-    this.settingsProvider.save(this.settingsForm.value);
   }
 
   ionViewDidEnter() {
