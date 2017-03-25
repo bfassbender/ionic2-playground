@@ -5,7 +5,15 @@
 </ion-header>
 
 <ion-content padding>
-  <p>
-    Settings will be placed here
-  </p>
+    <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+      <ion-item>
+        <ion-label floating>Portraitarchiv Veranstaltungscode</ion-label>
+        <ion-input type="text" formControlName="veranstaltungsCode"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Wie heißt Du?</ion-label>
+        <ion-input formControlName="userName"></ion-input>
+      </ion-item>
+      <button ion-button type="submit" [disabled]="!settingsForm.valid">Einstellungen speichern</button>
+    </form>
 </ion-content>

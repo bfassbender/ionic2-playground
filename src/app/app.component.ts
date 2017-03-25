@@ -18,22 +18,8 @@ export class MyApp {
   constructor( private platform: Platform, 
                private configProvider: ConfigProvider,
                private statusBar : StatusBar,
-               private splashScreen : SplashScreen,
-               private ga: GoogleAnalytics) {
+               private splashScreen : SplashScreen) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      configProvider.loadApiConfig().subscribe( (apiConfig : ApiConfig) => {
-        ga.startTrackerWithId(apiConfig.gaKey)
-          .then(() => {
-            console.log('Google analytics is ready now');
-            ga.setAllowIDFACollection(true);
-            ga.setAnonymizeIp(true);
-            ga.setAppVersion('0.0.1');
-          })
-          .catch(e => console.log('Error starting GoogleAnalytics', e)); 
-      })
-    
       statusBar.styleDefault();
       splashScreen.hide();
     });

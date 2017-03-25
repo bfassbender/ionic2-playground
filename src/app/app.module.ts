@@ -4,6 +4,9 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Transfer } from '@ionic-native/transfer';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 import { SharePage } from '../pages/share/share';
 import { ProgressPage } from '../pages/progress/progress';
@@ -15,9 +18,8 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 import { UploadQueue } from '../providers/upload-queue';
 import { ConfigProvider } from '../providers/config-provider';
-import { GoogleAnalytics} from '@ionic-native/google-analytics';
-import { ImagePicker } from '@ionic-native/image-picker';
-import { Transfer } from '@ionic-native/transfer';
+import { GoogleAnalyticsTracker } from '../providers/google-analytics-tracker';
+
 
 
 let appDeclarations = [
@@ -48,11 +50,12 @@ let appProviders = [
   {provide: ErrorHandler, useClass: IonicErrorHandler}, 
   StatusBar,
   SplashScreen,
-  GoogleAnalytics,
   ImagePicker,
   Transfer,
+  GoogleAnalytics,
   UploadQueue, 
-  ConfigProvider
+  ConfigProvider,
+  GoogleAnalyticsTracker
 ];
 
 @NgModule({

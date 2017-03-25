@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { NavController, Platform} from 'ionic-angular';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 
 @Component({
   selector: 'page-settings',
@@ -9,18 +10,26 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 })
 export class SettingsPage {
 
+  settingsForm: FormGroup;
+
   constructor( public navCtrl: NavController, 
                private platform: Platform,
-               private ga : GoogleAnalytics) {
+               private gaTracker : GoogleAnalyticsTracker,
+               private formBuilder: FormBuilder ) {
+    this.settingsForm = this.formBuilder.group({
+      veranstaltungsCode: ['', Validators.required],
+      userName: ['', Validators.required]
+    });
+  }
+
+
+
+  saveSettings() {
+    console.log(this.settingsForm.value)
   }
 
   ionViewDidEnter() {
-    this.platform.ready().then(() => {
-      this.ga.trackView("Settings Page").catch(err => {
-        console.error("GA Tracking failed: " + JSON.stringify(err));
-      });        
-    });
-    console.debug("ProgressPage: ionViewDidEnter");
+    this.gaTracker.trackView("Settings Page");
+    console.debug(this.constructor.name + ": ionViewDidEnter");
   }
-
 }

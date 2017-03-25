@@ -1,10 +1,10 @@
 import { Component, NgZone} from '@angular/core';
 import { NavController, NavParams, Platform, AlertController} from 'ionic-angular';
 import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, TransferObject } from '@ionic-native/transfer';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 import { ConfigProvider } from '../../providers/config-provider';
 import { ApiConfig } from '../../models/api-config';
+import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 
 import { SharePage } from '../share/share';
 
@@ -36,7 +36,7 @@ export class GalleryPage {
       private transfer: Transfer, 
       private ngZone: NgZone, 
       private alertCtrl: AlertController, 
-      private ga: GoogleAnalytics) {
+      private gaTracker : GoogleAnalyticsTracker) {
     this.photo_uris = navParams.get("photo_uris");
     if(!this.photo_uris || this.photo_uris.length == 0) {
       this.alertUser("Error", "No images selected to be uploaded.");
@@ -59,11 +59,7 @@ export class GalleryPage {
   }
 
   ionViewDidEnter() {
-    this.platform.ready().then(() => {
-      this.ga.trackView("Upload Page").catch(err => {
-        console.error("GA Tracking failed: " + JSON.stringify(err));
-      });        
-    });
+    this.gaTracker.trackView("Upload Page");
     console.debug("GalleryPage: ionViewDidEnter");
   }
 
@@ -87,8 +83,7 @@ export class GalleryPage {
   private success(result: FileUploadResult) : void {
     console.info("GalleryPage upload successful. " + JSON.stringify(result));
 
-    this.ga.trackEvent("Photo", "upload successful", result.response , result.bytesSent).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
-
+    this.gaTracker.trackEvent("Photo", "upload successful", result.response , result.bytesSent);
     if(this.current_photo_index < this.total_to_upload) {             
       this.current_photo_index++;
       this.uploadProgress = 0;                    
@@ -96,14 +91,14 @@ export class GalleryPage {
     } else {
       this.state_uploading = false;
       console.info("GalleryPage upload completed. Uploaded " + this.total_to_upload + " images.");
-      this.ga.trackEvent("Photoset", "upload finished", "" , this.total_to_upload).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
+      this.gaTracker.trackEvent("Photoset", "upload finished", "" , this.total_to_upload);
     }
   }
 
   private failed (err: FileTransferError) : void {
     let logString = "Upload failed for file " + err.source + ". " + JSON.stringify(err);
     console.error(logString);
-    this.ga.trackException(logString ,false).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
+    this.gaTracker.trackException(logString ,false);
     this.alertUser("Upload failed", "Could not upload Image to Server. Error Code: " + err.code + ", Status Code: " + err.http_status);
     this.uploadProgress = 0;
     this.state_uploading = false;

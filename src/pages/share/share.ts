@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-
 import { NavController, Platform} from 'ionic-angular';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
-
+import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { GalleryPage } from '../gallery/gallery';
 
 @Component({
@@ -14,17 +12,13 @@ export class SharePage {
 
   constructor( public navCtrl: NavController, 
                private platform: Platform,
-               private ga : GoogleAnalytics,
+               private gaTracker : GoogleAnalyticsTracker,
                private imagePicker : ImagePicker) {
   }
 
   ionViewDidEnter() {
-    this.platform.ready().then(() => {
-      this.ga.trackView("Share Page").catch(err => {
-        console.error("GA Tracking failed: " + JSON.stringify(err));
-      });        
-    });
-    console.debug("ProgressPage: ionViewDidEnter");
+    this.gaTracker.trackView("Share Page");
+    console.debug(this.constructor.name + ": ionViewDidEnter");
   }
 
   openCameraRoll() {
@@ -38,13 +32,13 @@ export class SharePage {
 
     this.imagePicker.getPictures(options).then(
       photo_uris => {
-        console.log("SharePage: Got " + photo_uris.length + " image uris. Forwarding to Gallery Page...");
+        console.info(this.constructor.name + ": Got " + photo_uris.length + " image uris. Forwarding to Gallery Page...");
         this.navCtrl.setRoot(GalleryPage, { "photo_uris" : photo_uris });
       },
       err => {
         let logString = "ImagePicker.getPictures failed: " + JSON.stringify(err);
-        this.ga.trackException(logString ,false).catch(err => { console.error("GA Tracking failed: " + JSON.stringify(err))});
-        console.log(logString);
+        this.gaTracker.trackException(logString ,false);
+        console.error(this.constructor.name + ": " + logString);
       }
     );
   }

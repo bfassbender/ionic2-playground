@@ -89,6 +89,6 @@
   <plugin name="cordova-plugin-image-picker" spec="https://github.com/mirulumam/cordova-imagePicker.git"/>
   <plugin name="cordova-plugin-file-transfer" spec="~1.6.1"/>
   <plugin name="cordova-plugin-google-analytics" spec="~1.7.5"/>
-  <plugin name="cordova-sqlite-storage" spec="~2.0.2" />
+  <plugin name="cordova-sqlite-storage" spec="~2.0.2"/>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>
