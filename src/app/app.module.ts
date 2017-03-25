@@ -19,6 +19,7 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 import { UploadQueue } from '../providers/upload-queue';
 import { ConfigProvider } from '../providers/config-provider';
 import { GoogleAnalyticsTracker } from '../providers/google-analytics-tracker';
+import { SettingsProvider } from '../providers/settings-provider';
 
 
 
@@ -34,7 +35,9 @@ let appDeclarations = [
 
 let appImports = [
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot({
+      name:'_snapshareStorage'
+    })
 ];
 
 let appEntryComponents = [
@@ -55,7 +58,8 @@ let appProviders = [
   GoogleAnalytics,
   UploadQueue, 
   ConfigProvider,
-  GoogleAnalyticsTracker
+  GoogleAnalyticsTracker,
+  SettingsProvider
 ];
 
 @NgModule({

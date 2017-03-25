@@ -1,19 +1,22 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Settings</ion-title>
+    <ion-title>Einstellungen</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
-      <ion-item>
-        <ion-label floating>Portraitarchiv Veranstaltungscode</ion-label>
-        <ion-input type="text" formControlName="veranstaltungsCode"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Wie heißt Du?</ion-label>
-        <ion-input formControlName="userName"></ion-input>
-      </ion-item>
-      <button ion-button type="submit" [disabled]="!settingsForm.valid">Einstellungen speichern</button>
-    </form>
+    <ion-list>
+      <ion-list-header>Deine Zugangsdaten</ion-list-header>
+      <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+        <ion-item>
+          <ion-label stacked>Veranstaltungscode</ion-label>
+          <ion-input type="text" placeholder="XXXXX-XXXX-XXXX" formControlName="veranstaltungsCode" clearInput="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Dein Name</ion-label>
+          <ion-input type="text" placeholder="Wie heißt Du?" formControlName="userName" clearInput="true"></ion-input>
+        </ion-item>
+        <button ion-button type="submit" [disabled]="!settingsForm.valid">Einstellungen speichern</button>
+      </form>
+    </ion-list>
 </ion-content>
