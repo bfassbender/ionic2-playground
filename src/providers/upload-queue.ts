@@ -7,9 +7,7 @@ export class UploadQueue {
   private fileUrls : Array<String> = [];
   // private dictionary :  { [id: string]: IUploadItem; } = {};
 
-  constructor() {
-    console.log('Hello PhotoBuffer Provider');
-  }
+  constructor() { }
 
   public addPictureUrl(url: String) {
     if(url != null && url != undefined && url.length > 0) {

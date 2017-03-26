@@ -6,9 +6,7 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class SettingsProvider {
 
-  constructor(private http: Http, private storage: Storage) {
-    console.log("Hello from " + this.constructor.name);
-  }
+  constructor(private http: Http, private storage: Storage) { }
 
   save(settings: Object) {
     this.storage.set("eventSettings", settings).then(() => {

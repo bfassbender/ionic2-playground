@@ -1,6 +1,7 @@
 {
   "name": "snapshare",
   "version": "0.0.1",
+  "description": "SnapShare: Easily share your party pictures on portrait-archiv.com",
   "author": "Bernd Faßbender",
   "homepage": "https://www.github.com/bfassbender",
   "private": true,
@@ -9,8 +10,7 @@
     "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
-    "test-coverage": "ng test --code-coverage",
-    "test": "ng test"
+    "test": "karma start ./test-config/karma.conf.js"
   },
   "dependencies": {
     "@angular/common": "2.4.8",
@@ -36,24 +36,26 @@
     "zone.js": "0.7.2"
   },
   "devDependencies": {
-    "@angular/cli": "^1.0.0-rc.1",
-    "@angular/router": "3.4.8",
     "@ionic/app-scripts": "1.1.4",
-    "@types/jasmine": "2.5.38",
-    "@types/node": "~7.0.8",
-    "jasmine-core": "^2.5.2",
-    "jasmine-spec-reporter": "^3.2.0",
+    "@ionic/cli-build-ionic-angular": "0.0.3",
+    "@ionic/cli-plugin-cordova": "0.0.9",
+    "@types/jasmine": "^2.5.41",
+    "@types/node": "^7.0.8",
+    "angular2-template-loader": "^0.6.2",
+    "html-loader": "^0.4.5",
+    "jasmine": "^2.5.3",
     "karma": "^1.5.0",
     "karma-chrome-launcher": "^2.0.0",
-    "karma-cli": "^1.0.1",
-    "karma-coverage-istanbul-reporter": "^0.3.0",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
+    "null-loader": "^0.1.1",
+    "ts-loader": "^2.0.3",
     "tslint": "^4.5.1",
     "tslint-eslint-rules": "^3.4.0",
-    "typescript": "2.0.9"
+    "typescript": "~2.1.6"
   },
-  "description": "SnapShare: Easily share your party pictures on portrait-archiv.com",
   "cordovaPlatforms": [
     {
       "platform": "android",
