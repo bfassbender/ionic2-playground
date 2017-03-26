@@ -24,7 +24,7 @@ export class SettingsPage {
     
     this.settingsForm = this.formBuilder.group({
       veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')])],
-      userName: ['', Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern('[a-zA-Z0-9äöüßÄÖÜ]*')], )]
+      userName: ['', Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9äöüßÄÖÜ]+( [a-zA-Z0-9äöüßÄÖÜ]+)*$')], )]
     });
   }
 
