@@ -72,7 +72,7 @@ export class GalleryPage {
       
       const fileTransfer: TransferObject = this.configureFileTransfer();
       
-      fileTransfer.upload(photo_uri, encodeURI(this.apiConfig.url) , uploadOptions)
+      fileTransfer.upload(photo_uri, encodeURI(this.apiConfig.uploadUrl) , uploadOptions)
       .then((result: FileUploadResult) => {
         this.success(result); 
       }).catch((error: FileTransferError) => {

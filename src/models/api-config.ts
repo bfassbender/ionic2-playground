@@ -1,5 +1,5 @@
 export interface ApiConfig {
-    url: string;
+    uploadUrl: string;
     apikey: string;
     subFolder: string;
     gaKey: string;
