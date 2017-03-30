@@ -25,9 +25,11 @@ export class ConfigProvider {
 
   public getApiConfig() : ApiConfig {
     if( this.apiConfig ) {
+      console.debug("Using cached configuration");
       return this.apiConfig;
     }
     else {
+      console.debug("Loading configuration...");
       this.loadApiConfig().subscribe(config => {
         return config;
       })
