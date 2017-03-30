@@ -9,7 +9,6 @@ import { Transfer } from '@ionic-native/transfer';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 import { SharePage } from '../pages/share/share';
-import { ProgressPage } from '../pages/progress/progress';
 import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { GalleryPage } from '../pages/gallery/gallery';
@@ -26,7 +25,6 @@ import { SettingsProvider } from '../providers/settings-provider';
 let appDeclarations = [
   MyApp,
   SharePage,
-  ProgressPage,
   SettingsPage,
   TabsPage,
   GalleryPage,
@@ -43,7 +41,6 @@ let appImports = [
 let appEntryComponents = [
   MyApp,
   SharePage,
-  ProgressPage,
   SettingsPage,
   TabsPage,
   GalleryPage
