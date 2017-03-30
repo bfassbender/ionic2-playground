@@ -32,13 +32,19 @@ export class SharePage {
 
     this.imagePicker.getPictures(options).then(
       photo_uris => {
-        console.info(this.constructor.name + ": Got " + photo_uris.length + " image uris. Forwarding to Gallery Page...");
-        this.navCtrl.setRoot(GalleryPage, { "photo_uris" : photo_uris });
+        console.info(this.constructor.name + ":Got " + photo_uris.length + " image uris.");
+        if(photo_uris.length > 0) {
+          console.info(this.constructor.name + ": Forwarding to Gallery Page...");
+          this.navCtrl.setRoot(GalleryPage, { "photo_uris" : photo_uris });
+        }
+        else {
+          console.info(this.constructor.name + ": staying here...");
+        }
       },
       err => {
-        let logString = "ImagePicker.getPictures failed: " + JSON.stringify(err);
+        let logString = this.constructor.name + ": ImagePicker.getPictures failed: " + JSON.stringify(err);
         this.gaTracker.trackException(logString ,false);
-        console.error(this.constructor.name + ": " + logString);
+        console.error(logString);
       }
     );
   }

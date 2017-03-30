@@ -13,7 +13,7 @@ export class GoogleAnalyticsTracker {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       if(platform.is('cordova')) {
-        configProvider.loadApiConfig().subscribe( (apiConfig : ApiConfig) => {
+        configProvider.getApiConfig().subscribe( (apiConfig : ApiConfig) => {
           ga.startTrackerWithId(apiConfig.gaKey)
             .then(() => {
               console.log('Google analytics is ready now');

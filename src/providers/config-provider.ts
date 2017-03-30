@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/publishReplay';
+import 'rxjs/add/operator/do';
 import { Observable } from 'rxjs/Observable';
 
 import { ApiConfig } from '../models/api-config';
@@ -8,31 +10,18 @@ import { ApiConfig } from '../models/api-config';
 @Injectable()
 export class ConfigProvider {
 
-  apiConfig : ApiConfig;
+  private apiConfigCache : Observable<ApiConfig>;
 
   constructor(public http: Http) {}
 
-  loadApiConfig() : Observable<ApiConfig> {
-    return this.http.get('assets/config/api-params.json')
-      .map(res => {
-        let config : ApiConfig = res.json() as ApiConfig;
-        this.apiConfig = config;
-        console.log("Config loaded: " + JSON.stringify(this.apiConfig));
-        return config;
-      }
-    );
-  }
-
-  public getApiConfig() : ApiConfig {
-    if( this.apiConfig ) {
-      console.debug("Using cached configuration");
-      return this.apiConfig;
+  public getApiConfig() : Observable<ApiConfig> {
+    if(!this.apiConfigCache){
+      this.apiConfigCache = this.http.get('assets/config/api-params.json')
+                          .map(res => res.json() as ApiConfig)
+                          .do(config => console.info(this.constructor.name + ' - Retrieved config ' + JSON.stringify(config)))
+                          .publishReplay(1)
+                          .refCount();
     }
-    else {
-      console.debug("Loading configuration...");
-      this.loadApiConfig().subscribe(config => {
-        return config;
-      })
-    }
+    return this.apiConfigCache;
   }
 }

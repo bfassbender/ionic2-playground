@@ -1,6 +1,8 @@
 import { Component, NgZone} from '@angular/core';
-import { NavController, NavParams, Platform, AlertController} from 'ionic-angular';
+import { NavController, NavParams, Platform, ToastController, Toast} from 'ionic-angular';
 import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, TransferObject } from '@ionic-native/transfer';
+
+import 'rxjs/add/operator/toPromise';
 
 import { ConfigProvider } from '../../providers/config-provider';
 import { ApiConfig } from '../../models/api-config';
@@ -23,31 +25,29 @@ export class GalleryPage {
   
   photo_uris: Array<string>;
 
-  private apiConfig: ApiConfig;
+
 
   
 
-  constructor(
-      private platform: Platform, 
-      private navCtrl: NavController, 
-      private navParams: NavParams, 
-      private configProvider: ConfigProvider, 
-      private transfer: Transfer, 
-      private ngZone: NgZone, 
-      private alertCtrl: AlertController, 
-      private gaTracker : GoogleAnalyticsTracker,
-      private settingsProvider : SettingsProvider) {
+  constructor(private platform: Platform, 
+              private navCtrl: NavController, 
+              private navParams: NavParams, 
+              private configProvider: ConfigProvider, 
+              private transfer: Transfer, 
+              private ngZone: NgZone, 
+              private toastCtrl: ToastController, 
+              private gaTracker : GoogleAnalyticsTracker,
+              private settingsProvider : SettingsProvider){
+
     this.photo_uris = navParams.get("photo_uris");
+
     if(!this.photo_uris || this.photo_uris.length == 0) {
-      this.alertUser("Error", "No images selected to be uploaded.");
+      this.sendToast("Du hast keine Bilder zum hochladen ausgewählt.");
       this.state_uploading = false;
       return;
     }
 
     this.total_to_upload = this.photo_uris.length;
-    this.apiConfig = this.configProvider.getApiConfig();
-
-    console.log("Hello from GalleryPage constructor!");
   }
 
   ionViewDidLoad() {
@@ -67,12 +67,16 @@ export class GalleryPage {
     console.info("GalleryPage uploading image: " + photo_uri);
 
     let fileEnding = photo_uri.substring(photo_uri.lastIndexOf('.'));
-    this.fileUploadOptionsWithDefaultValues(fileEnding).then(uploadOptions => {
-      console.info("Using the following parameters for upload: " + JSON.stringify(uploadOptions));
+
+    let uploadOptionsPromise = this.fileUploadOptionsWithDefaultValues(fileEnding);
+    let configPromise = this.configProvider.getApiConfig().toPromise(); 
+
+    Promise.all([uploadOptionsPromise, configPromise]).then(values => {
+      console.info("Using the following parameters for upload: " + JSON.stringify(values[0]));
       
       const fileTransfer: TransferObject = this.configureFileTransfer();
       
-      fileTransfer.upload(photo_uri, encodeURI(this.apiConfig.uploadUrl) , uploadOptions)
+      fileTransfer.upload(photo_uri, encodeURI(values[1].uploadUrl) , values[0])
       .then((result: FileUploadResult) => {
         this.success(result); 
       }).catch((error: FileTransferError) => {
@@ -93,6 +97,9 @@ export class GalleryPage {
       this.state_uploading = false;
       console.info("GalleryPage upload completed. Uploaded " + this.total_to_upload + " images.");
       this.gaTracker.trackEvent("Photoset", "upload finished", "" , this.total_to_upload);
+      this.navCtrl.setRoot(SharePage).then(() => {
+        this.sendToast("Deine Fotos wurden hochgeladen.");
+      });
     }
   }
 
@@ -100,7 +107,7 @@ export class GalleryPage {
     let logString = "Upload failed for file " + err.source + ". " + JSON.stringify(err);
     console.error(logString);
     this.gaTracker.trackException(logString ,false);
-    this.alertUser("Upload failed", "Could not upload Image to Server. Error Code: " + err.code + ", Status Code: " + err.http_status);
+    this.sendToast("Konnte Deine Fotos leider nicht hochladen: " + err.code + ", Status Code: " + err.http_status);
     this.uploadProgress = 0;
     this.state_uploading = false;
   }
@@ -120,41 +127,40 @@ export class GalleryPage {
   }
 
   private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : Promise<FileUploadOptions> {
-
     let settingsPromise = this.settingsProvider.load();
+    let configPromise = this.configProvider.getApiConfig().toPromise();
 
-    let promise : Promise<FileUploadOptions> = settingsPromise.then(
-      (settings) => {
-        
-        let subFolder = this.apiConfig.subFolder;
-        if(settings.userName) {
-          subFolder = subFolder + " - " + settings.userName;
-        }
+    let resultPromise : Promise<FileUploadOptions> = Promise.all([settingsPromise, configPromise]).then(values => {
+      let userSettings : any = values[0];
+      let appConfig : ApiConfig = values[1];
+      let subFolder = appConfig.subFolder;
 
-        return <FileUploadOptions> {
-          params : {
-            "apikey" : this.apiConfig.apikey,
-            "galerieCode" : settings.veranstaltungsCode,
-            "subFolder" : subFolder
-          },
-          fileName: this.generateUuid() + fileEnding
-        }
-      },
-      (err) => {
-        throw new Error("Could not load settings: " + err);
+      if(userSettings.userName) {
+        subFolder = subFolder + " - " + userSettings.userName;
       }
-    );
 
-    return promise;
+      return <FileUploadOptions> {
+        params : {
+          "apikey" : appConfig.apikey,
+          "galerieCode" : userSettings.veranstaltungsCode,
+          "subFolder" : subFolder
+        },
+        fileName: this.generateUuid() + fileEnding
+      }
+    }).catch((err) => {
+      throw new Error("Could not initiate upload: " + err);
+    });
+
+    return resultPromise;
   }
 
-  private alertUser(title: string, subtitle: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: subtitle,
-      buttons: ['Dismiss']
+  private sendToast(message: string) {
+    let toast : Toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: "top"
     });
-    alert.present();
+    toast.present();
   }
 
   // Relies on Math.random(). If better randomness needed, switch to e.g. node_uuid
