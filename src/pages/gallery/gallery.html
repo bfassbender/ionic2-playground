@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <div [hidden]="!state_uploading">
-    <p>Lade Bild {{current_photo_index}} von {{total_to_upload}} hoch ...</p>
+    <p>Lade Foto {{current_photo_index}} von {{total_to_upload}} hoch ...</p>
     <progress-bar [progress]="uploadProgress"></progress-bar>
     <img src="{{photo_uris[current_photo_index - 1]}}"/>
   </div>

@@ -12,6 +12,7 @@ export class TabsPage {
   // should be each tab's root Page
   tab1Root: any = SettingsPage;
   tab2Root: any = SharePage;
+  activeTab: number = 1;
 
   constructor(private uploadQueue : UploadQueue) {
 
