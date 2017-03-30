@@ -20,6 +20,7 @@ export class GoogleAnalyticsTracker {
               ga.setAllowIDFACollection(true);
               ga.setAnonymizeIp(true);
               ga.setAppVersion('0.0.1');
+              ga.enableUncaughtExceptionReporting(true);
             })
             .catch(e => console.log('Error starting GoogleAnalytics', e)); 
         });
@@ -33,7 +34,7 @@ export class GoogleAnalyticsTracker {
       // Here you can do any higher level native things you might need.
       if(this.platform.is('cordova')) {
         this.ga.trackView(title).catch(err => {
-          console.error("GA trackView failed for view [" + title + "]: " + JSON.stringify(err));
+          console.warn("GA trackView failed for view [" + title + "]: " + JSON.stringify(err));
         });        
       }
     });
@@ -45,7 +46,7 @@ export class GoogleAnalyticsTracker {
       // Here you can do any higher level native things you might need.
       if(this.platform.is('cordova')) {
         this.ga.trackEvent(category, action, label, value).catch(err => {
-          console.error("GA trackEvent failed for Event [" + category + ", "+ action + "]: " + JSON.stringify(err));
+          console.warn("GA trackEvent failed for Event [" + category + ", "+ action + "]: " + JSON.stringify(err));
         });        
       }
     });
@@ -57,7 +58,7 @@ export class GoogleAnalyticsTracker {
       // Here you can do any higher level native things you might need.
       if(this.platform.is('cordova')) {
         this.ga.trackException(description, fatal).catch(err => {
-          console.error("GA trackView failed for Exception [" + description + "]: " + JSON.stringify(err));
+          console.warn("GA trackView failed for Exception [" + description + "]: " + JSON.stringify(err));
         });        
       }
     });
