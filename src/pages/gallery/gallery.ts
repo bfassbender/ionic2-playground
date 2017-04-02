@@ -1,5 +1,5 @@
 import { Component, NgZone} from '@angular/core';
-import { NavController, NavParams, Platform, ToastController, Toast, ViewController} from 'ionic-angular';
+import { NavParams, Platform, ToastController, Toast, ViewController} from 'ionic-angular';
 import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, TransferObject } from '@ionic-native/transfer';
 
 import 'rxjs/add/operator/toPromise';
@@ -8,8 +8,6 @@ import { ConfigProvider } from '../../providers/config-provider';
 import { ApiConfig } from '../../models/api-config';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { SettingsProvider } from '../../providers/settings-provider';
-
-import { SharePage } from '../share/share';
 
 @Component({
   templateUrl: 'gallery.html'
