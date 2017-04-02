@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, Platform} from 'ionic-angular';
+import { NavController, Platform, ModalController} from 'ionic-angular';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { GalleryPage } from '../gallery/gallery';
 
 @Component({
-  selector: 'page-share',
   templateUrl: 'share.html'
 })
 export class SharePage {
@@ -13,7 +12,8 @@ export class SharePage {
   constructor( public navCtrl: NavController, 
                private platform: Platform,
                private gaTracker : GoogleAnalyticsTracker,
-               private imagePicker : ImagePicker) {
+               private imagePicker : ImagePicker,
+               private modalCtrl: ModalController) {
   }
 
   ionViewDidEnter() {
@@ -26,7 +26,7 @@ export class SharePage {
       maximumImagesCount: 10
       ,width: 3000
       ,height: 3000
-      ,quality: 85
+      ,quality: 80
     }
 
 
@@ -35,7 +35,8 @@ export class SharePage {
         console.info(this.constructor.name + ":Got " + photo_uris.length + " image uris.");
         if(photo_uris.length > 0) {
           console.info(this.constructor.name + ": Forwarding to Gallery Page...");
-          this.navCtrl.setRoot(GalleryPage, { "photo_uris" : photo_uris });
+          let uploadModal = this.modalCtrl.create(GalleryPage, { "photo_uris" : photo_uris });
+          uploadModal.present();
         }
         else {
           console.info(this.constructor.name + ": staying here...");

@@ -1,5 +1,5 @@
 import { Component, NgZone} from '@angular/core';
-import { NavController, NavParams, Platform, ToastController, Toast} from 'ionic-angular';
+import { NavController, NavParams, Platform, ToastController, Toast, ViewController} from 'ionic-angular';
 import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, TransferObject } from '@ionic-native/transfer';
 
 import 'rxjs/add/operator/toPromise';
@@ -12,7 +12,6 @@ import { SettingsProvider } from '../../providers/settings-provider';
 import { SharePage } from '../share/share';
 
 @Component({
-  selector: 'page-gallery',
   templateUrl: 'gallery.html'
 })
 export class GalleryPage {
@@ -25,12 +24,8 @@ export class GalleryPage {
   
   photo_uris: Array<string>;
 
-
-
-  
-
   constructor(private platform: Platform, 
-              private navCtrl: NavController, 
+              private viewCtrl: ViewController,
               private navParams: NavParams, 
               private configProvider: ConfigProvider, 
               private transfer: Transfer, 
@@ -38,7 +33,7 @@ export class GalleryPage {
               private toastCtrl: ToastController, 
               private gaTracker : GoogleAnalyticsTracker,
               private settingsProvider : SettingsProvider){
-
+    
     this.photo_uris = navParams.get("photo_uris");
 
     if(!this.photo_uris || this.photo_uris.length == 0) {
@@ -97,7 +92,7 @@ export class GalleryPage {
       this.state_uploading = false;
       console.info("GalleryPage upload completed. Uploaded " + this.total_to_upload + " images.");
       this.gaTracker.trackEvent("Photoset", "upload finished", "" , this.total_to_upload);
-      this.navCtrl.setRoot(SharePage).then(() => {
+      this.closePage().then(() => {
         this.sendToast("Deine Fotos wurden hochgeladen.");
       });
     }
@@ -107,9 +102,12 @@ export class GalleryPage {
     let logString = "Upload failed for file " + err.source + ". " + JSON.stringify(err);
     console.error(logString);
     this.gaTracker.trackException(logString ,false);
-    this.sendToast("Konnte Deine Fotos leider nicht hochladen: " + err.code + ", Status Code: " + err.http_status);
+   
     this.uploadProgress = 0;
     this.state_uploading = false;
+    this.closePage().then(() => {
+      this.sendToast("Konnte Deine Fotos leider nicht hochladen. Fehlercode: " + err.code, true);
+    });
   }
 
   private configureFileTransfer() : TransferObject {
@@ -154,11 +152,18 @@ export class GalleryPage {
     return resultPromise;
   }
 
-  private sendToast(message: string) {
+  private sendToast(message: string, error?:boolean) {
+    let cssClass = "toast-success";
+    if(error) {
+      cssClass = "toast-danger"
+    }
+
     let toast : Toast = this.toastCtrl.create({
       message: message,
-      duration: 3000,
-      position: "top"
+      position: "bottom",
+      duration: 1500,
+      //showCloseButton: true,
+      cssClass: cssClass
     });
     toast.present();
   }
@@ -171,7 +176,7 @@ export class GalleryPage {
     });
   }
 
-  done () : void  {
-    this.navCtrl.setRoot(SharePage);    
+  closePage () : Promise<any>  {
+    return this.viewCtrl.dismiss();    
   }
 }
