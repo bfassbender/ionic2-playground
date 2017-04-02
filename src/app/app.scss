@@ -14,3 +14,36 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.toast-ios .toast-wrapper.toast-bottom {
+  bottom: 45px;
+}
+
+.toast-md .toast-wrapper.toast-bottom {
+  bottom: 45px;
+}
+
+.toast-wp .toast-wrapper.toast-bottom {
+  bottom: 45px;
+}
+
+.toast-ios .toast-wrapper.toast-top {
+  top: 10px;
+}
+
+.toast-md .toast-wrapper.toast-top {
+  top: 10px;
+}
+
+.toast-wp .toast-wrapper.toast-top {
+  top: 10px;
+}
+
+.toast-success .toast-wrapper {
+  background: rgba(50, 219, 100, 0.9);
+}
+
+.toast-danger .toast-wrapper {
+  background: rgba(245, 61, 61, 0.9);
+}
+
