@@ -4,7 +4,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { FirstRunPage, MainPage } from '../pages/pages';
-import { IntroductionPage } from '../pages/introduction/introduction';
 
 import { SettingsProvider } from '../providers/settings-provider';
 
@@ -12,7 +11,7 @@ import { SettingsProvider } from '../providers/settings-provider';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = FirstRunPage;
+  rootPage: any = MainPage;
 
   constructor( private platform: Platform, 
                private statusBar : StatusBar,
@@ -34,7 +33,7 @@ export class MyApp {
   }
 
   enterIntroduction() {
-    this.rootPage = IntroductionPage;
+    this.rootPage = FirstRunPage;
     this.settingsProvider.setIntroShown(true);
     this.startApp();
   }
