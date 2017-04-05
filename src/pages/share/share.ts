@@ -18,7 +18,6 @@ export class SharePage {
 
   ionViewDidEnter() {
     this.gaTracker.trackView("Share Page");
-    console.debug(this.constructor.name + ": ionViewDidEnter");
   }
 
   openCameraRoll() {

@@ -1,9 +1,7 @@
 <ion-header>
-
   <ion-navbar hideBackButton="true">
     <ion-title>Hochladen</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
@@ -11,9 +9,6 @@
   <div [hidden]="!state_uploading">
     <p>Lade Foto {{current_photo_index}} von {{total_to_upload}} hoch ...</p>
     <progress-bar [progress]="uploadProgress"></progress-bar>
-    <img src="{{photo_uris[current_photo_index - 1]}}"/>
-  </div>
-  <div [hidden]="state_uploading">
-    <button ion-button block on-tap="done()">Fertig</button>
+    <img class="image_upload" src="{{photo_uris[current_photo_index - 1]}}"/>
   </div>
 </ion-content>
