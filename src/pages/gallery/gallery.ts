@@ -123,7 +123,7 @@ export class GalleryPage {
   }
 
   private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : Promise<FileUploadOptions> {
-    let settingsPromise = this.settingsProvider.load();
+    let settingsPromise = this.settingsProvider.loadSettings();
     let configPromise = this.configProvider.getApiConfig().toPromise();
 
     let resultPromise : Promise<FileUploadOptions> = Promise.all([settingsPromise, configPromise]).then(values => {

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 
-import { NavController, Platform, ViewController } from 'ionic-angular';
+import { NavController, Platform, ViewController, App } from 'ionic-angular';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { SettingsProvider } from '../../providers/settings-provider';
+
+import { IntroductionPage } from '../introduction/introduction';
 
 @Component({
   selector: 'page-settings',
@@ -20,7 +22,8 @@ export class SettingsPage {
                private platform: Platform,
                private gaTracker : GoogleAnalyticsTracker,
                private settingsProvider : SettingsProvider,
-               private formBuilder: FormBuilder ) {
+               private formBuilder: FormBuilder,
+               public appCtrl: App ) {
     
     this.settingsForm = this.formBuilder.group({
       veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')])],
@@ -29,14 +32,14 @@ export class SettingsPage {
   }
 
   saveSettings() {
-    console.log(this.settingsForm.value);
-    this.settingsProvider.save(this.settingsForm.value);
+    console.log(JSON.stringify(this.settingsForm.value));
+    this.settingsProvider.saveSettings(this.settingsForm.value);
   }
 
   ionViewWillEnter() {
-    this.settingsProvider.load().then(settings => {
+    this.settingsProvider.loadSettings().then(settings => {
       if(settings) {
-        console.info(this.constructor.name + ": Loaded settings from storage - " + JSON.stringify(settings));
+        console.info(this.constructor.name + ": Current settings - " + JSON.stringify(settings));
         this.settingsForm.setValue(settings);
       }
       else {
@@ -52,8 +55,10 @@ export class SettingsPage {
 
   ionViewDidEnter() {
     this.gaTracker.trackView("Settings Page");
-    console.debug(this.constructor.name + ": ionViewDidEnter");
   }
 
-  
+  rewatchIntro() {
+    this.settingsProvider.setIntroShown(false);
+    this.appCtrl.getRootNav().setRoot(IntroductionPage);
+  }
 }

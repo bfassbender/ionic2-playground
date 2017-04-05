@@ -12,6 +12,7 @@ import { SharePage } from '../pages/share/share';
 import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { GalleryPage } from '../pages/gallery/gallery';
+import { IntroductionPage } from '../pages/introduction/introduction';
 
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
@@ -21,13 +22,21 @@ import { GoogleAnalyticsTracker } from '../providers/google-analytics-tracker';
 import { SettingsProvider } from '../providers/settings-provider';
 
 
+export function declarations() {
+  return components;
+}
 
-let appDeclarations = [
+export function entryComponents() {
+  return components;
+}
+
+let components = [
   MyApp,
   SharePage,
   SettingsPage,
   TabsPage,
   GalleryPage,
+  IntroductionPage,
   ProgressBarComponent
 ];
 
@@ -38,32 +47,26 @@ let appImports = [
     })
 ];
 
-let appEntryComponents = [
-  MyApp,
-  SharePage,
-  SettingsPage,
-  TabsPage,
-  GalleryPage
-];
-
-let appProviders = [
-  {provide: ErrorHandler, useClass: IonicErrorHandler}, 
-  StatusBar,
-  SplashScreen,
-  ImagePicker,
-  Transfer,
-  GoogleAnalytics,
-  UploadQueue, 
-  ConfigProvider,
-  GoogleAnalyticsTracker,
-  SettingsProvider
-];
+export function providers() {
+  return [
+    StatusBar,
+    SplashScreen,
+    ImagePicker,
+    Transfer,
+    GoogleAnalytics,
+    UploadQueue, 
+    ConfigProvider,
+    GoogleAnalyticsTracker,
+    SettingsProvider,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+  ];
+}
 
 @NgModule({
-  declarations: appDeclarations,
+  declarations: declarations(),
   imports: appImports,
   bootstrap: [IonicApp],
-  entryComponents: appEntryComponents,
-  providers: appProviders
+  entryComponents: entryComponents(),
+  providers: providers()
 })
 export class AppModule {}

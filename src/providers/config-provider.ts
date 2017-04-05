@@ -18,7 +18,7 @@ export class ConfigProvider {
     if(!this.apiConfigCache){
       this.apiConfigCache = this.http.get('assets/config/api-params.json')
                           .map(res => res.json() as ApiConfig)
-                          .do(config => console.info(this.constructor.name + ' - Retrieved config ' + JSON.stringify(config)))
+                          .do(config => console.debug(this.constructor.name + ' - Retrieved config ' + JSON.stringify(config)))
                           .publishReplay(1)
                           .refCount();
     }

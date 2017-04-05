@@ -3,22 +3,51 @@ import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import { TabsPage } from '../pages/tabs/tabs';
+import { FirstRunPage, MainPage } from '../pages/pages';
+import { IntroductionPage } from '../pages/introduction/introduction';
+
+import { SettingsProvider } from '../providers/settings-provider';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = TabsPage;
+  rootPage: any = FirstRunPage;
 
   constructor( private platform: Platform, 
                private statusBar : StatusBar,
-               private splashScreen : SplashScreen) {
+               private splashScreen : SplashScreen,
+               private settingsProvider : SettingsProvider) {
+
     platform.ready().then(() => {
-      if(platform.is('cordova')) {
-        statusBar.styleDefault();
-        splashScreen.hide();
-      }
+      settingsProvider.isIntroShown().then((introShown) => {
+        if(introShown){
+          this.enterMainApp();
+        } else {
+          this.enterIntroduction();
+        }
+      }).catch(err => {
+        console.error("Could not determine if we're running for the first time. " + JSON.stringify(err));
+        this.enterIntroduction();
+      });
     });
+  }
+
+  enterIntroduction() {
+    this.rootPage = IntroductionPage;
+    this.settingsProvider.setIntroShown(true);
+    this.startApp();
+  }
+
+  enterMainApp() {
+    this.rootPage = MainPage;
+    this.startApp();
+  }
+
+  startApp() {
+    if(this.platform.is('cordova')) {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+    }
   }
 }
