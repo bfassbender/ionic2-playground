@@ -18,8 +18,7 @@ export class MyApp {
                private splashScreen : SplashScreen,
                private settingsProvider : SettingsProvider) {
 
-    platform.ready().then(() => {
-      settingsProvider.isIntroShown().then((introShown) => {
+    settingsProvider.isIntroShown().then((introShown) => {
         if(introShown){
           this.enterMainApp();
         } else {
@@ -29,12 +28,10 @@ export class MyApp {
         console.error("Could not determine if we're running for the first time. " + JSON.stringify(err));
         this.enterIntroduction();
       });
-    });
   }
 
   enterIntroduction() {
     this.rootPage = FirstRunPage;
-    this.settingsProvider.setIntroShown(true);
     this.startApp();
   }
 
@@ -44,9 +41,11 @@ export class MyApp {
   }
 
   startApp() {
-    if(this.platform.is('cordova')) {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    }
+    this.platform.ready().then(() => {
+      if(this.platform.is('cordova')) {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+      }
+    });
   }
 }
