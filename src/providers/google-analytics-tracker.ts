@@ -10,8 +10,6 @@ export class GoogleAnalyticsTracker {
 
   constructor(private platform: Platform, private ga: GoogleAnalytics, private configProvider: ConfigProvider) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       if(platform.is('cordova')) {
         configProvider.getApiConfig().subscribe( (apiConfig : ApiConfig) => {
           ga.startTrackerWithId(apiConfig.gaKey)
@@ -30,8 +28,6 @@ export class GoogleAnalyticsTracker {
 
   trackView(title: string){
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       if(this.platform.is('cordova')) {
         this.ga.trackView(title).catch(err => {
           console.warn("GA trackView failed for view [" + title + "]: " + JSON.stringify(err));
@@ -42,8 +38,6 @@ export class GoogleAnalyticsTracker {
 
   trackEvent(category: string, action: string, label: string, value: number){
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       if(this.platform.is('cordova')) {
         this.ga.trackEvent(category, action, label, value).catch(err => {
           console.warn("GA trackEvent failed for Event [" + category + ", "+ action + "]: " + JSON.stringify(err));
@@ -54,8 +48,6 @@ export class GoogleAnalyticsTracker {
 
   trackException(description: string, fatal: boolean){
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       if(this.platform.is('cordova')) {
         this.ga.trackException(description, fatal).catch(err => {
           console.warn("GA trackView failed for Exception [" + description + "]: " + JSON.stringify(err));
@@ -63,7 +55,4 @@ export class GoogleAnalyticsTracker {
       }
     });
   }
-
-
-
 }
