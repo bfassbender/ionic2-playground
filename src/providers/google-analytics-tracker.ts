@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { GoogleAnalytics} from '@ionic-native/google-analytics';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 import { ConfigProvider } from './config-provider';
 import { ApiConfig } from '../models/api-config';
