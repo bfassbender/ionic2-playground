@@ -8,26 +8,27 @@ import { FirstRunPage, MainPage } from '../pages/pages';
 import { SettingsProvider } from '../providers/settings-provider';
 
 @Component({
-  templateUrl: 'app.html'
+   template: '<ion-nav [root]="rootPage"></ion-nav>'
 })
 export class MyApp {
-  rootPage: any = MainPage;
+  rootPage: any;
 
   constructor( private platform: Platform, 
                private statusBar : StatusBar,
                private splashScreen : SplashScreen,
                private settingsProvider : SettingsProvider) {
-
-    settingsProvider.isIntroShown().then((introShown) => {
-        if(introShown){
-          this.enterMainApp();
-        } else {
+    this.platform.ready().then(() => {
+      settingsProvider.isIntroShown().then((introShown) => {
+          if(introShown){
+            this.enterMainApp();
+          } else {
+            this.enterIntroduction();
+          }
+        }).catch(err => {
+          console.error("Could not determine if we're running for the first time. " + JSON.stringify(err));
           this.enterIntroduction();
-        }
-      }).catch(err => {
-        console.error("Could not determine if we're running for the first time. " + JSON.stringify(err));
-        this.enterIntroduction();
-      });
+        });
+    });
   }
 
   enterIntroduction() {
@@ -41,11 +42,9 @@ export class MyApp {
   }
 
   startApp() {
-    this.platform.ready().then(() => {
-      if(this.platform.is('cordova')) {
-        this.statusBar.styleDefault();
-        this.splashScreen.hide();
-      }
-    });
+    if(this.platform.is('cordova')) {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+    }
   }
 }
