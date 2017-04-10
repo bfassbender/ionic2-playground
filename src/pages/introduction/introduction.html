@@ -9,16 +9,15 @@
 <ion-content no-bounce padding>
   <ion-slides pager (ionSlideWillChange)="onSlideChangeStart($event)">
     <ion-slide *ngFor="let slide of slides">
-      <!--img [src]="slide.image" class="slide-image"/-->
+      <img [src]="slide.image" class="slide-image"/>
       <h2 class="slide-title" [innerHTML]="slide.title"></h2>
       <p [innerHTML]="slide.description"></p>
     </ion-slide>
     <ion-slide>
-      <!--img src="assets/img/ica-slidebox-img-4.png" class="slide-image"/-->
-      <h2 class="slide-title">Slide 4</h2>
-      <button ion-button icon-right large clear (click)="startApp()">
-        Los geht's!
-        <ion-icon name="arrow-forward"></ion-icon>
+      <img src="assets/img/intro_slide_2.png" class="slide-image">
+      <h2 class="slide-title"><b>Veranstaltungscode eingeben</b> und loslegen</h2>
+      <p>Durch Eingabe des Veranstaltungscodes landen Deine Fotos direkt in der richtigen Galerie. Die Bilder werden unter Deinem Namen abgelegt und sind so einfach zu finden.</p>
+      <button ion-button icon-right (click)="startApp()">Los geht's!<ion-icon name="arrow-forward"></ion-icon>
       </button>
     </ion-slide>
   </ion-slides>

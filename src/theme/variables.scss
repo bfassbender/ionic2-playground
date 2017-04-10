@@ -12,6 +12,8 @@ $font-path: "../assets/fonts";
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
+$headings-font-weight: 300;
+
 
 
 
@@ -35,6 +37,9 @@ $colors: (
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
+// Use the primary color as the background for the toolbar-ios-background
+// $toolbar-ios-background:                   color($colors, primary);
+$text-input-ios-show-focus-highlight: true;
 
 
 
@@ -42,6 +47,12 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
+
+// Use the primary color as the background for the toolbar-md-background
+$toolbar-md-background:                   color($colors, primary);
+
+// Change the color of the segment button text
+$toolbar-md-active-color:                 #fff;
 
 
 

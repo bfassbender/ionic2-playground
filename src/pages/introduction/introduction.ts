@@ -24,14 +24,9 @@ export class IntroductionPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private settingsProv: SettingsProvider, private gaTracker: GoogleAnalyticsTracker) {
     this.slides = [
       {
-        title: "Teile Deine Schnappschüsse im Portraitarchiv",
+        title: "<b>Teile Deine Schnappschüsse</b> im Portraitarchiv",
         description: "Mit Snapshare kannst Du Deine Fotos einfach und bequem direkt von Deinem Smartphone auf <a href='https://www.portrait-archiv.com'>portrait-archiv.com</a> teilen.",
-        image: '',
-      },
-      {
-        title: "Name und Veranstaltungscode eingeben und loslegen",
-        description: "Durch eingabe des Veranstaltungscodes landen Deine Fotos direkt in der richtigen Galerie. Die Bilder werden unter Deinem Namen abgelegt und sind so einfach zu finden.",
-        image: '',
+        image: 'assets/img/intro_slide_1.png',
       }
     ];
   }
