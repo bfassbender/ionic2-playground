@@ -5,6 +5,8 @@ import { NavController, Platform, ViewController, App } from 'ionic-angular';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { SettingsProvider } from '../../providers/settings-provider';
 
+import { GalleryCodeValidator } from '../../validators/gallery-code-validator';
+
 import { IntroductionPage } from '../introduction/introduction';
 
 @Component({
@@ -26,13 +28,14 @@ export class SettingsPage {
                public appCtrl: App ) {
     
     this.settingsForm = this.formBuilder.group({
-      veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')])],
-      userName: ['', Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')], )]
+      veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')]), GalleryCodeValidator.validateCode],
+      userName: ['', Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9äöüßÄÖÜ]+( [a-zA-Z0-9äöüßÄÖÜ]+ *)*$')], )]
     });
   }
 
   saveSettings() {
     console.log(JSON.stringify(this.settingsForm.value));
+  
     this.settingsProvider.saveSettings(this.settingsForm.value);
   }
 
