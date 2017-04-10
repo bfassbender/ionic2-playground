@@ -4,28 +4,23 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-bounce>
-  <ion-card>
-    <ion-card-header>Deine Zugangsdaten</ion-card-header>
-    <ion-card-content>
-      <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
-        <ion-item>
-          <ion-label color="primary" stacked>Veranstaltungscode</ion-label>
-          <ion-input type="text" placeholder="XXXXX-XXXX-XXXX" formControlName="veranstaltungsCode" clearInput="true"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label color="primary" stacked>Dein Name</ion-label>
-          <ion-input type="text" placeholder="Wie heißt Du?" formControlName="userName" clearInput="true"></ion-input>
-        </ion-item>
-        <button ion-button block type="submit" [disabled]="!settingsForm.valid">Einstellungen speichern</button>
-      </form>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>Intro erneut ansehen</ion-card-header>
-    <ion-card-content>
-      Schaue Dir die Einführung zu SnapShare erneut an.
-      <button ion-button block (click)="rewatchIntro()">Intro anschauen</button>
-    </ion-card-content>
-  </ion-card>
+<ion-content no-bounce padding>
+  <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+    <ion-list>
+      <ion-list-header>Deine Zugangsdaten</ion-list-header>
+      <ion-item>
+        <ion-label stacked>Veranstaltungscode</ion-label>
+        <ion-input type="text" placeholder="XXXXX-XXXX-XXXX" formControlName="veranstaltungsCode"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Dein Name</ion-label>
+        <ion-input type="text" placeholder="Wie heißt Du?" formControlName="userName"></ion-input>
+      </ion-item>
+      <button ion-button block type="submit" [disabled]="!settingsForm.valid">Einstellungen speichern</button>
+    </ion-list>
+  </form>
+  <div padding></div>
+  <ion-list-header>Intro erneut ansehen</ion-list-header>
+  <button ion-button block (click)="rewatchIntro()">Intro anschauen</button>
+  
 </ion-content>
