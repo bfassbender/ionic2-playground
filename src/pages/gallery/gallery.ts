@@ -129,10 +129,10 @@ export class GalleryPage {
     let resultPromise : Promise<FileUploadOptions> = Promise.all([settingsPromise, configPromise]).then(values => {
       let userSettings : any = values[0];
       let appConfig : ApiConfig = values[1];
-      let subFolder = appConfig.subFolder;
+      let subFolder = appConfig.defaultSubFolder;
 
       if(userSettings.userName) {
-        subFolder = subFolder + " - " + userSettings.userName;
+        subFolder = userSettings.userName;
       }
 
       return <FileUploadOptions> {
