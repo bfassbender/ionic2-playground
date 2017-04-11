@@ -8,7 +8,7 @@ import { FirstRunPage, MainPage } from '../pages/pages';
 import { SettingsProvider } from '../providers/settings-provider';
 
 @Component({
-   template: '<ion-nav [root]="rootPage"></ion-nav>'
+   template: '<ion-nav [root]="rootPage" swipeBackEnabled="false" #myAppNav></ion-nav>'
 })
 export class MyApp {
   rootPage: any;
