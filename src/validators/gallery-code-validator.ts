@@ -20,7 +20,7 @@ export class GalleryCodeValidator {
         } else {
           resolve(null);
         }
-      }, 2000);
+      }, 1000);
  
     });
   }
