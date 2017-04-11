@@ -31,10 +31,8 @@ module.exports = {
 
   plugins: [
     new webpack.ContextReplacementPlugin(
-      // The (\\|\/) piece accounts for path separators in *nix and Windows
-      /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-      root('./src'), // location of your src
-      {} // a map of your routes
+      /angular(\\|\/)core(\\|\/)@angular/,
+      root('../src')
     )
   ]
 };
