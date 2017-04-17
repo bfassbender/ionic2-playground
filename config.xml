@@ -81,6 +81,7 @@
   <preference name="orientation" value="portrait"/>
   <preference name="deployment-target" value="9.3"/>
   <preference name="target-device" value="handset"/>
+  <preference name="loadUrlTimeoutValue" value="700000" />
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
