@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, Nav } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -8,10 +8,11 @@ import { FirstRunPage, MainPage } from '../pages/pages';
 import { SettingsProvider } from '../providers/settings-provider';
 
 @Component({
-   template: '<ion-nav [root]="rootPage" swipeBackEnabled="false" #myAppNav></ion-nav>'
+   template: '<ion-nav [root]="rootPage" swipeBackEnabled="false" #nav></ion-nav>'
 })
 export class MyApp {
   rootPage: any;
+  @ViewChild('nav') public nav: Nav;
 
   constructor( private platform: Platform, 
                private statusBar : StatusBar,
@@ -32,12 +33,12 @@ export class MyApp {
 
   enterIntroduction() {
     this.rootPage = FirstRunPage;
-    this.startApp();
+    this.nav.setRoot(this.rootPage).then(() => this.startApp());
   }
 
   enterMainApp() {
     this.rootPage = MainPage;
-    this.startApp();
+    this.nav.setRoot(this.rootPage).then(() => this.startApp());
   }
 
   startApp() {
@@ -45,7 +46,9 @@ export class MyApp {
     this.platform.ready().then(() => {
       if(this.platform.is('cordova')) {
         this.statusBar.styleDefault();
-        this.splashScreen.hide();
+        setTimeout(() => {
+          this.splashScreen.hide();
+        }, 200);
       }
     });
   }
