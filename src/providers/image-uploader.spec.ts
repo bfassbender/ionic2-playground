@@ -1,8 +1,7 @@
 import { ImageUploader } from './image-uploader';
-import { Observable } from 'rxjs/Rx'
 let cut: ImageUploader;
 
-describe('Provider: UploadQueue', () => {
+describe('Provider: ImageUploader', () => {
 
     it('is created', () => {
         expect(cut).toBeTruthy();
@@ -12,13 +11,11 @@ describe('Provider: UploadQueue', () => {
     it('can take a list of image urls to upload and returns an Observable as handle (async)', done => {
         let expected = ['firstUrl', 'secondUrl'];
         cut.uploadImages(expected).subscribe({
-            next: x =>  expect(x).toBeTruthy(),
+            next: x =>  expect(expected).toContain(x),
             error: e => fail(e),
             complete: () => done()
         });
     });
-
-
 
     beforeEach(() => {
       cut = new ImageUploader();
