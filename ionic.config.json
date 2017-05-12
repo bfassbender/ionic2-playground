@@ -1,6 +1,5 @@
 {
   "name": "SnapShare",
   "app_id": "de.webcoders.snapshare",
-  "v2": true,
-  "typescript": true
+  "type": "ionic-angular"
 }
