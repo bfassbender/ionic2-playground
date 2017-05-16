@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="de.webcoders.snapshare" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="de.webcoders.snapshare" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SnapShare</name>
     <description>Easily share your party pictures on portrait-archiv.com</description>
     <author email="snapshare@posteo.de" href="https://www.github.com/bfassbender">Bernd Faßbender</author>
-    <content original-src="index.html" src="http://192.168.192.103:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.192.106:8100" />
