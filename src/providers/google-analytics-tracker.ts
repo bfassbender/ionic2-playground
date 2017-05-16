@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { ConfigProvider } from './config-provider';
 import { ApiConfig } from '../models/api-config';
@@ -8,20 +9,22 @@ import { ApiConfig } from '../models/api-config';
 @Injectable()
 export class GoogleAnalyticsTracker {
 
-  constructor(private platform: Platform, private ga: GoogleAnalytics, private configProvider: ConfigProvider) {
+  constructor(private platform: Platform, private ga: GoogleAnalytics, private configProvider: ConfigProvider, private appVersion: AppVersion) {
     platform.ready().then(() => {
       if(platform.is('cordova')) {
-        configProvider.getApiConfig().subscribe( (apiConfig : ApiConfig) => {
-          ga.startTrackerWithId(apiConfig.gaKey)
-            .then(() => {
-              console.log('Google analytics is ready now');
-              ga.setAllowIDFACollection(true);
-              ga.setAnonymizeIp(true);
-              ga.setAppVersion('0.0.3');
-              ga.enableUncaughtExceptionReporting(true);
-            })
-            .catch(e => console.log('Error starting GoogleAnalytics', e)); 
-        });
+        appVersion.getVersionNumber().then(version => {
+          console.info("Application Version: " + version);
+          configProvider.getApiConfig().subscribe( (apiConfig : ApiConfig) => {
+            ga.startTrackerWithId(apiConfig.gaKey)
+              .then(() => {
+                console.log('Google analytics is ready now');
+                ga.setAllowIDFACollection(true);
+                ga.setAnonymizeIp(true);
+                ga.setAppVersion(version);
+                ga.enableUncaughtExceptionReporting(true);
+              })
+          });
+        }).catch(e => console.log('Error starting GoogleAnalytics', e)); 
       }      
     });
   }

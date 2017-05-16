@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Transfer } from '@ionic-native/transfer';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { UploadQueue } from '../providers/upload-queue';
 import { ConfigProvider } from '../providers/config-provider';
@@ -44,6 +45,7 @@ let providers = [
   ImagePicker,
   Transfer,
   GoogleAnalytics,
+  AppVersion,
   UploadQueue, 
   ConfigProvider,
   GoogleAnalyticsTracker,
