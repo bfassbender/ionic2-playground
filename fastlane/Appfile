@@ -1,0 +1,4 @@
+# Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
+json_key_file "/Users/bernd/Projects/tools/secrets/Google_Play_Android_Developer-c1b0ce9b2541.json" 
+
+package_name "de.webcoders.snapshare" 

@@ -1,0 +1,87 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# Update fastlane automatically if a new version is available:
+#update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.30.2"
+
+ios_project_path = "platforms/ios/SnapShare.xcodeproj"
+android_release_path = "platforms/android/build/outputs/apk/android-release.apk"
+android_sdk_path = "/Users/bernd/Library/Android/sdk/build-tools/25.0.3"
+
+default_platform :android
+
+# ===== Common Private Lanes =====
+private_lane :prepare do
+  if ENV["IONIC_ENV"] == "prod"
+    sh("echo 'Incrementing Version for PROD release.'")
+    sh("node scripts/increment_build_number.js")
+  end
+end
+
+# ===== Android Private Lanes =====
+desc "Do a new Android deploy using jarsigner and zipaliagn."
+private_lane :android_deploy do |options|
+  # require storepass to be specified
+  sh("cd .. && jarsigner -verbose " +
+         "-storepass #{options[:storepass]} " +
+         "-sigalg SHA1withRSA -digestalg SHA1 " +
+         "-keystore fastlane/release-credentials/android-release-key.jks " +
+         "platforms/android/build/outputs/apk/android-release-unsigned.apk snapshare")
+
+  sh("cd .. && #{android_sdk_path}/zipalign -f " +
+         "-v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk " +
+         android_release_path)
+end
+
+desc "Do a new Android upload to Google Play Console using supply."
+private_lane :android_upload do
+  supply(
+      track: "alpha",
+      apk: android_release_path,
+      json_key: "fastlane/release-credentials/snapshare_google_play_rm_credentials.json",
+      package_name: "de.webcoders.snapshare"
+  )
+  # slack(message: "Successfully deployed to Google Play.") # TODO(xinbenlv): add version
+end
+
+platform :android do
+  prepare
+  desc "Deploy a new version to the Google Play Store."
+  lane :deploy do |options|
+    prepare
+    android_publish(options)
+  end
+end
+
+desc "Deploy a new version to the Google Play Store."
+private_lane :android_publish do |options|
+  if options[:storepass].nil? || options[:storepass].empty?
+    sh("echo 'please specify storepass:<android keystore password>'")
+    exit
+  else
+    ionic_android_build
+    android_deploy(options)
+    android_upload
+  end
+end
+
+desc "Do a new Android build"
+private_lane :ionic_android_build do
+  sh("cd .. && ionic cordova build android --release")
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used. No personal data is recorded. 
+# Learn more at https://github.com/fastlane/fastlane#metrics

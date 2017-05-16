@@ -17,7 +17,7 @@ export class GoogleAnalyticsTracker {
               console.log('Google analytics is ready now');
               ga.setAllowIDFACollection(true);
               ga.setAnonymizeIp(true);
-              ga.setAppVersion('0.0.1');
+              ga.setAppVersion('0.0.3');
               ga.enableUncaughtExceptionReporting(true);
             })
             .catch(e => console.log('Error starting GoogleAnalytics', e)); 
