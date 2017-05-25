@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { SettingsPage } from '../settings/settings';
 import { SharePage } from '../share/share';
-import { UploadQueue } from '../../providers/upload-queue';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -14,11 +13,11 @@ export class TabsPage {
   tab2Root: any = SharePage;
   activeTab: number = 1;
 
-  constructor(private uploadQueue : UploadQueue) {
+  constructor() {
 
   }
 
   getPendingUploads () {
-    return this.uploadQueue.getPendingUploads() || "";
+    "";
   }
 }

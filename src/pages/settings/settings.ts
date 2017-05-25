@@ -4,8 +4,9 @@ import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController, Platform, ViewController, App } from 'ionic-angular';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { SettingsProvider } from '../../providers/settings-provider';
+import { PortraitArchivApiProvider } from '../../providers/portrait-archiv-api/portrait-archiv-api';
 
-import { GalleryCodeValidator } from '../../validators/gallery-code-validator';
+import { createVeranstaltungsCodeValidator } from '../../validators/gallery-code-validator';
 
 import { IntroductionPage } from '../introduction/introduction';
 
@@ -25,10 +26,11 @@ export class SettingsPage {
                private gaTracker : GoogleAnalyticsTracker,
                private settingsProvider : SettingsProvider,
                private formBuilder: FormBuilder,
+               private apiProvider: PortraitArchivApiProvider,
                public appCtrl: App ) {
     
     this.settingsForm = this.formBuilder.group({
-      veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')]), GalleryCodeValidator.validateCode],
+      veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')]), createVeranstaltungsCodeValidator(apiProvider,this)],
       userName: ['', Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$')], )]
     });
   }

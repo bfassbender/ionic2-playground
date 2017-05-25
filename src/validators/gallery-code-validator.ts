@@ -1,28 +1,25 @@
 import { FormControl } from '@angular/forms';
- 
-export class GalleryCodeValidator {
- 
-    static validateCode(control: FormControl): any {
- 
-    return new Promise(resolve => {
+import { PortraitArchivApiProvider } from '../providers/portrait-archiv-api/portrait-archiv-api'
+
+export function createVeranstaltungsCodeValidator(api: PortraitArchivApiProvider, component) {
+  return function(control:FormControl) {
+    return new Promise((resolve,reject) => {
       if(!control.dirty) {
          resolve(null);
       }
-
-      //Fake a slow response from server
-      setTimeout(() => {
-        if(control.value.toLowerCase() === "11111-1111-1111"){
- 
+      api.validateVeranstaltungsCode(control.value).subscribe(
+        data => {
+          console.info("VeranstaltungsCode valid: " + JSON.stringify(data));
+          resolve(null)
+        },
+        err => {
+          console.info("VeranstaltungsCode invalid: " + JSON.stringify(err))
           resolve({
             "codeInvalid": true
-          });
- 
-        } else {
-          resolve(null);
+          })
         }
-      }, 1000);
- 
+      )
     });
   }
- 
+
 }

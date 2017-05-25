@@ -12,10 +12,10 @@ import { Transfer } from '@ionic-native/transfer';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { AppVersion } from '@ionic-native/app-version';
 
-import { UploadQueue } from '../providers/upload-queue';
 import { ConfigProvider } from '../providers/config-provider';
 import { GoogleAnalyticsTracker } from '../providers/google-analytics-tracker';
 import { SettingsProvider } from '../providers/settings-provider';
+import { PortraitArchivApiProvider } from '../providers/portrait-archiv-api/portrait-archiv-api';
 
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
@@ -46,8 +46,8 @@ let providers = [
   Transfer,
   GoogleAnalytics,
   AppVersion,
-  UploadQueue, 
   ConfigProvider,
+  PortraitArchivApiProvider,
   GoogleAnalyticsTracker,
   SettingsProvider,
   {provide: ErrorHandler, useClass: IonicErrorHandler}
