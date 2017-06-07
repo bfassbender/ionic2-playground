@@ -4,7 +4,6 @@ import { ImageUploader } from './image-uploader';
 import { Transfer } from  '@ionic-native/transfer';
 
 let cut: ImageUploader;
-let fixture: ComponentFixture<ImageUploader>;
 
 describe('Provider: ImageUploader', () => {
 
@@ -19,35 +18,21 @@ describe('Provider: ImageUploader', () => {
             error: e => fail(e),
             complete: () => done()
         });
-        cut.doReactiveStuff(); 
     });
 
-
     beforeEach(async(() => {
- 
-        TestBed.configureTestingModule({
- 
-            declarations: [ImageUploader],
- 
-            providers: [
-                Transfer use
-            ],
- 
-            imports: [
-                IonicModule.forRoot(ImageUploader)
-            ]
- 
-        }).compileComponents();
- 
+        cut = new ImageUploader(new TransferMock()); 
     }));
  
     beforeEach(() => {
-        fixture = TestBed.createComponent(ImageUploader);
-        cut    = fixture.componentInstance;
+        cut = new ImageUploader(new TransferMock()); 
     });
 
     afterEach(() => {
-        fixture.destroy();
         cut = null;
     });
 });
+
+export class TransferMock extends Transfer {
+
+}
