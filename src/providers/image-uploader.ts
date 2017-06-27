@@ -11,9 +11,7 @@ export class ImageUploader {
   }
 
   uploadImages(imageUrls: Array<string>) : Observable<any> {
-    return Observable.from(imageUrls).map(url => {
-      return this.transfer.create();
-    });
+    return Observable.from(imageUrls);
   }
 
   doReactiveStuff() {
