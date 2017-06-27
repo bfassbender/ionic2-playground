@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 
-import { NavController, Platform, ViewController, App } from 'ionic-angular';
+import { NavController, Platform, ViewController, App, ToastController, Toast } from 'ionic-angular';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { SettingsProvider } from '../../providers/settings-provider';
 import { PortraitArchivApiProvider } from '../../providers/portrait-archiv-api/portrait-archiv-api';
@@ -27,7 +27,8 @@ export class SettingsPage {
                private settingsProvider : SettingsProvider,
                private formBuilder: FormBuilder,
                private apiProvider: PortraitArchivApiProvider,
-               public appCtrl: App ) {
+               public appCtrl: App,
+               private toastCtrl: ToastController ) {
     
     this.settingsForm = this.formBuilder.group({
       veranstaltungsCode: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{5}-[0-9]{4}-[0-9]{4}')]), createVeranstaltungsCodeValidator(apiProvider,this)],
@@ -37,8 +38,8 @@ export class SettingsPage {
 
   saveSettings() {
     console.log(JSON.stringify(this.settingsForm.value));
-  
     this.settingsProvider.saveSettings(this.settingsForm.value);
+    this.sendToast("Einstellungen gespeichert.");
   }
 
   ionViewWillEnter() {
@@ -65,5 +66,21 @@ export class SettingsPage {
   rewatchIntro() {
     this.settingsProvider.setIntroShown(false);
     this.appCtrl.getRootNav().setRoot(IntroductionPage);
+  }
+
+  private sendToast(message: string, error?:boolean) {
+    let cssClass = "toast-success";
+    if(error) {
+      cssClass = "toast-danger"
+    }
+
+    let toast : Toast = this.toastCtrl.create({
+      message: message,
+      position: "top",
+      duration: 2000,
+      showCloseButton: true,
+      cssClass: cssClass
+    });
+    toast.present();
   }
 }
