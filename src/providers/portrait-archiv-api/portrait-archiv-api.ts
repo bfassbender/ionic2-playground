@@ -7,15 +7,14 @@ import { Observable } from 'rxjs/Rx';
 export class PortraitArchivApiProvider {
 
   constructor(private http: Http, private config: ConfigProvider) {
-    console.log('Hello PortraitArchivApiProvider Provider');
   }
 
   validateVeranstaltungsCode(veranstaltungsCode:String){
-    return this.config.getApiConfig().flatMap(res => {
+    return this.config.getApiConfig().switchMap(res => {
       return this.http.get(res.checkAccessUrl+'?galerieCode='+veranstaltungsCode+'&apikey='+res.apikey)
         .map(res => res.json())
         .catch(err => {
-          console.error(err);
+          console.error("API Error. HTTP " + err.status + " - Response " + err._body);
           return Observable.throw(err);
         });
     });
