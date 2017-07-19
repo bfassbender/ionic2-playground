@@ -8,7 +8,7 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ImagePicker } from '@ionic-native/image-picker';
-import { Transfer } from '@ionic-native/transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { AppVersion } from '@ionic-native/app-version';
 
@@ -24,6 +24,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { GalleryPage } from '../pages/gallery/gallery';
 import { IntroductionPage } from '../pages/introduction/introduction';
+import { RegisterForEventPage } from '../pages/register-for-event/register-for-event'
 
 
 let pages = [
@@ -32,7 +33,8 @@ let pages = [
   SettingsPage,
   TabsPage,
   GalleryPage,
-  IntroductionPage
+  IntroductionPage,
+  RegisterForEventPage
 ];
 
 let comps = [
@@ -43,7 +45,7 @@ let providers = [
   StatusBar,
   SplashScreen,
   ImagePicker,
-  Transfer,
+  FileTransfer,
   GoogleAnalytics,
   AppVersion,
   ConfigProvider,

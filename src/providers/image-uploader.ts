@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
 import { Observable } from 'rxjs/Rx';
-import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, TransferObject } from '@ionic-native/transfer';
+import { FileTransfer, FileUploadOptions, FileUploadResult, FileTransferError, FileTransferObject } from '@ionic-native/file-transfer';
 
 @Injectable()
 export class ImageUploader {
 
-  constructor(private transfer: Transfer) {
+  constructor(private transfer: FileTransfer) {
   }
 
   uploadImages(imageUrls: Array<string>) : Observable<any> {

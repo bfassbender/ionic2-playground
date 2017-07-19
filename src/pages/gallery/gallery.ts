@@ -1,6 +1,6 @@
 import { Component, NgZone} from '@angular/core';
 import { NavParams, Platform, ToastController, Toast, ViewController} from 'ionic-angular';
-import { Transfer, FileUploadOptions, FileUploadResult, FileTransferError, TransferObject } from '@ionic-native/transfer';
+import { FileTransfer, FileUploadOptions, FileUploadResult, FileTransferError, FileTransferObject } from '@ionic-native/file-transfer';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -26,7 +26,7 @@ export class GalleryPage {
               private viewCtrl: ViewController,
               private navParams: NavParams, 
               private configProvider: ConfigProvider, 
-              private transfer: Transfer, 
+              private transfer: FileTransfer, 
               private ngZone: NgZone, 
               private toastCtrl: ToastController, 
               private gaTracker : GoogleAnalyticsTracker,
@@ -67,7 +67,7 @@ export class GalleryPage {
     Promise.all([uploadOptionsPromise, configPromise]).then(values => {
       console.info("Using the following parameters for upload: " + JSON.stringify(values[0]));
       
-      const fileTransfer: TransferObject = this.configureFileTransfer();
+      const fileTransfer: FileTransferObject = this.configureFileTransfer();
       
       fileTransfer.upload(photo_uri, encodeURI(values[1].uploadUrl) , values[0])
       .then((result: FileUploadResult) => {
@@ -108,7 +108,7 @@ export class GalleryPage {
     });
   }
 
-  private configureFileTransfer() : TransferObject {
+  private configureFileTransfer() : FileTransferObject {
     let transferObject = this.transfer.create();
     transferObject.onProgress((progressEvent: ProgressEvent) => {
       this.ngZone.run(() => {
