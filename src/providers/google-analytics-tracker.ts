@@ -9,7 +9,7 @@ import { ApiConfig } from '../models/api-config';
 @Injectable()
 export class GoogleAnalyticsTracker {
 
-  constructor(private platform: Platform, private ga: GoogleAnalytics, private configProvider: ConfigProvider, private appVersion: AppVersion) {
+  constructor(private platform: Platform, private ga: GoogleAnalytics, configProvider: ConfigProvider, appVersion: AppVersion) {
     platform.ready().then(() => {
       if(platform.is('cordova')) {
         appVersion.getVersionNumber().then(version => {

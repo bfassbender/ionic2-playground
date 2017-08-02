@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 
-import { NavController, Platform, ViewController, App, ToastController, Toast } from 'ionic-angular';
+import { NavController, App, ToastController, Toast } from 'ionic-angular';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { SettingsProvider } from '../../providers/settings-provider';
 import { PortraitArchivApiProvider } from '../../providers/portrait-archiv-api/portrait-archiv-api';
@@ -9,6 +9,7 @@ import { PortraitArchivApiProvider } from '../../providers/portrait-archiv-api/p
 import { createVeranstaltungsCodeValidator } from '../../validators/gallery-code-validator';
 
 import { IntroductionPage } from '../introduction/introduction';
+import { RegisterForEventPage } from '../register-for-event/register-for-event'
 
 @Component({
   selector: 'page-settings',
@@ -21,12 +22,10 @@ export class SettingsPage {
   isReadyToSave: boolean;
 
   constructor( public navCtrl: NavController, 
-               private viewCtrl: ViewController,
-               private platform: Platform,
                private gaTracker : GoogleAnalyticsTracker,
                private settingsProvider : SettingsProvider,
                private formBuilder: FormBuilder,
-               private apiProvider: PortraitArchivApiProvider,
+               apiProvider: PortraitArchivApiProvider,
                public appCtrl: App,
                private toastCtrl: ToastController ) {
     
@@ -61,6 +60,10 @@ export class SettingsPage {
 
   ionViewDidEnter() {
     this.gaTracker.trackView("Settings Page");
+  }
+
+  changeEvent() {
+    this.appCtrl.getRootNav().setRoot(RegisterForEventPage);
   }
 
   rewatchIntro() {

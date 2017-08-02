@@ -20,4 +20,15 @@ export class PortraitArchivApiProvider {
     });
   }
 
+  ladeGalerie(veranstaltungsCode:String){
+    return this.config.getApiConfig().switchMap(res => {
+      return this.http.get(res.loadGalleryUrl+'?galerieCode='+veranstaltungsCode+'&apikey='+res.apikey)
+        .map(res => res.json())
+        .catch(err => {
+          console.error("API Error. HTTP " + err.status + " - Response " + err._body);
+          return Observable.throw(err);
+        });
+    });
+  }
+
 }

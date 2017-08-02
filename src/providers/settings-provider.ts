@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class SettingsProvider {
 
-  constructor(private http: Http, private storage: Storage) { }
+  constructor(private storage: Storage) { }
 
   saveSettings(settings: Object) {
     this.storage.set("eventSettings", settings).then(() => {
