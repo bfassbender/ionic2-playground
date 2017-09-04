@@ -27,7 +27,7 @@
       <ion-item *ngIf="eventName && !settingsForm.controls.eventCode.pending && settingsForm.controls.eventCode.valid">
           <p>Veranstaltung: <b>{{eventName}}</b></p>
       </ion-item>
-      <ion-item text-wrap>
+      <ion-item text-wrap *ngIf="!eventName"> 
         <p>Den Veranstaltungscode bekommst du von den Gastgebern.</p>
       </ion-item>  
       <ion-item>

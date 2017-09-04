@@ -6,8 +6,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-bounce padding>
-  <p>Hallo <b>{{userName}}</b>,
+<ion-content no-bounce>
+  <p padding>Hallo <b>{{userName}}</b>,
   du teilst deine Fotos auf der Veranstaltung <a href="https://www.portrait-archiv.com/home?0&vCode={{eventCode}}"><b>{{eventName}}</b></a>.</p>
-  <button ion-button block (click)="openCameraRoll()">Fotos auswählen</button>
+  <button ion-button full (click)="openCameraRoll()">Fotos auswählen</button>
 </ion-content>
