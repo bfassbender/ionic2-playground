@@ -2,8 +2,13 @@
   "name": "SnapShare",
   "app_id": "de.webcoders.snapshare",
   "type": "ionic-angular",
-  "proxies": [{
-    "path": "/rest",
-    "proxyUrl": "https://www.portrait-archiv.com/rest"
-  }]
+  "proxies": [
+    {
+      "path": "/rest",
+      "proxyUrl": "https://www.portrait-archiv.com/rest"
+    }
+  ],
+  "integrations": {
+    "cordova": {}
+  }
 }

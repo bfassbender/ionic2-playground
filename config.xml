@@ -3,7 +3,7 @@
     <name>SnapShare</name>
     <description>Easily share your party pictures on portrait-archiv.com</description>
     <author email="snapshare@posteo.de" href="https://www.github.com/bfassbender">Bernd Faßbender</author>
-    <content original-src="index.html" src="http://192.168.192.22:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
@@ -86,6 +86,9 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
+    <allow-navigation href="http://169.254.130.150:8101" />
+    <allow-navigation href="http://172.16.58.237:8100" />
+    <allow-navigation href="http://169.254.177.247:8100" />
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="4.4.0" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
