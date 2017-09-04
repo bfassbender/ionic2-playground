@@ -4,36 +4,13 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-bounce padding>
-  <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
-    <ion-list>
-      <ion-list-header>Deine Zugangsdaten</ion-list-header>
-      <ion-item>
-        <ion-label stacked>Veranstaltungscode</ion-label>
-        <ion-input type="text" placeholder="XXXXX-XXXX-XXXX" formControlName="veranstaltungsCode" maxlength="15"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="settingsForm.controls.veranstaltungsCode.pending && settingsForm.controls.veranstaltungsCode.dirty">
-        <p>Prüfe den Veranstaltungscode...</p>
-      </ion-item>
-      <ion-item *ngIf="!settingsForm.controls.veranstaltungsCode.pending && !settingsForm.controls.veranstaltungsCode.valid && settingsForm.controls.veranstaltungsCode.dirty && settingsForm.controls.veranstaltungsCode.errors.codeInvalid">
-        <p ion-text color="danger">Der Veranstaltungscode ist leider ungültig.</p>
-      </ion-item>
-      <ion-item text-wrap *ngIf="!settingsForm.controls.veranstaltungsCode.pending && !settingsForm.controls.veranstaltungsCode.valid && settingsForm.controls.veranstaltungsCode.dirty && settingsForm.controls.veranstaltungsCode.errors.pattern">
-        <p ion-text color="danger">Bitte gib den Code als Zahlenfolge im Format XXXXX-XXXX-XXXX ein.</p>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>Dein Name</ion-label>
-        <ion-input type="text" placeholder="Wie heißt Du?" formControlName="userName" maxlength="20"></ion-input>
-      </ion-item>
-      <ion-item text-wrap *ngIf="!settingsForm.controls.userName.valid && !settingsForm.controls.userName.pending && settingsForm.controls.userName.dirty">
-        <p ion-text color="danger">Bitte verwende nur Buchstaben von A-Z und Ziffern für den Namen. Leerzeichen zwischen Namensteilen sind erlaubt, Z.B. 'Karla Kolumna".</p>
-      </ion-item>
-      <button ion-button block type="submit" [disabled]="!settingsForm.valid">Einstellungen speichern</button>
-    </ion-list>
-  </form>
-  <div padding></div>
-  <ion-list-header>Intro erneut ansehen</ion-list-header>
-  <button ion-button block (click)="rewatchIntro()">Intro anschauen</button>
-  <button ion-button block (click)="changeEvent()">Veranstaltung wechseln</button>
-  
+<ion-content no-bounce>
+  <ion-list>
+    <ion-list-header>Aktuelle Veranstaltung: {{eventName}}</ion-list-header>
+    <button ion-button full (click)="changeEvent()">Veranstaltung wechseln</button>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>Intro erneut ansehen</ion-list-header>
+    <button ion-button full (click)="rewatchIntro()">Intro anschauen</button>
+  </ion-list>
 </ion-content>

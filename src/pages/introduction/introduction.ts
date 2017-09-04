@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Slides } from 'ionic-angular';
 
 import { MainPage } from '../pages';
+import { RegisterForEventPage } from '../register-for-event/register-for-event'
 
 import { SettingsProvider } from '../../providers/settings-provider';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
@@ -24,9 +25,19 @@ export class IntroductionPage {
   ) { }
 
   startApp() {
-    this.navCtrl.setRoot(MainPage).then(() => {
-      this.settingsProv.setIntroShown(true);
-    });
+    this.settingsProv.loadSettings().then(settingData => {
+
+      let nextPage: any = MainPage;
+
+      if(!settingData) {
+        nextPage = RegisterForEventPage;
+      }
+
+      this.navCtrl.setRoot(nextPage).then(() => {
+        this.settingsProv.setIntroShown(true);
+      });
+      
+    })
   }
 
   onSlideChangeStart(slides: Slides) {

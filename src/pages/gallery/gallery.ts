@@ -138,7 +138,7 @@ export class GalleryPage {
       return <FileUploadOptions> {
         params : {
           "apikey" : appConfig.apikey,
-          "galerieCode" : userSettings.veranstaltungsCode,
+          "galerieCode" : userSettings.eventCode,
           "subFolder" : subFolder
         },
         fileName: this.generateUuid() + fileEnding

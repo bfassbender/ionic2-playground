@@ -1,58 +1,46 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Veranstaltung betreten</ion-title>
+    <ion-title>Veranstaltung</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content no-bounce>
-  <ion-slides #signupSlider>
-
-      <ion-slide> 
-        <p>Gib bitte den Veranstaltungscode ein.<br/>Diesen erhälst du von deinen Gastgebern.</p>
-        <form [formGroup]="eventCodeForm" (ngSubmit)="next()">
-          <ion-list>
-            <ion-list-header>Veranstaltungscode</ion-list-header>
-            <ion-item>              
-              <ion-input #eventCode formControlName="eventCode" type="text" placeholder="XXXXX-XXXX-XXXX" maxlength="15"></ion-input>
-            </ion-item>
-            <ion-item *ngIf="eventCodeForm.controls.eventCode.pending && eventCodeForm.controls.eventCode.dirty">
-              <p>Ich prüfe den Veranstaltungscode...</p>
-            </ion-item>
-            <ion-item *ngIf="!eventCodeForm.controls.eventCode.pending && !eventCodeForm.controls.eventCode.valid && eventCodeForm.controls.eventCode.dirty && eventCodeForm.controls.eventCode.errors.codeInvalid">
-              <p ion-text color="danger">Der Veranstaltungscode ist leider ungültig.</p>
-            </ion-item>
-            <ion-item text-wrap *ngIf="!eventCodeForm.controls.eventCode.pending && !eventCodeForm.controls.eventCode.valid && eventCodeForm.controls.eventCode.dirty && eventCodeForm.controls.eventCode.errors.pattern">
-              <p ion-text color="danger">Bitte gib den Code als Zahlenfolge im Format XXXXX-XXXX-XXXX ein.</p>
-            </ion-item>
-            <ion-item text-wrap *ngIf="!eventCodeForm.controls.eventCode.pending && eventCodeForm.controls.eventCode.valid && eventCodeForm.controls.eventCode.dirty">
-              <p ion-text color="secondary">Dieser Veranstaltungscode ist gültig</p>
-            </ion-item>
-          </ion-list>
-        </form>
-      </ion-slide>
- 
-      <ion-slide>
-          <p>Willkommen zur Veranstaltung</p>
-          <p><b>{{eventName}}</b></p>
-          <p>Schön das du dabei bist!</p>
-          <form [formGroup]="userNameForm" (ngSubmit)="save()">
-            <ion-list>
-              <ion-list-header>Bitte gib Deinen Namen an.</ion-list-header>
-              <ion-item>
-                <ion-input formControlName="userName" type="text" placeholder="Wie heißt Du?" maxlength="20"></ion-input>
-              </ion-item>
-              <ion-item text-wrap *ngIf="!userNameForm.controls.userName.valid && !userNameForm.controls.userName.pending && userNameForm.controls.userName.dirty">
-                <p ion-text color="danger">Bitte verwende nur Buchstaben von A-Z und Ziffern für den Namen. Leerzeichen zwischen Namensteilen sind erlaubt, Z.B. 'Karla Kolumna".</p>
-              </ion-item>
-              <ion-item>
-                <button ion-button outline type="submit" [disabled]="!userNameForm.valid || !eventCodeForm.valid">Los geht's!</button>
-              </ion-item>
-            </ion-list>
-          </form>
-      </ion-slide>
-      
-    </ion-slides>
+  <form [formGroup]="settingsForm" (ngSubmit)="finishWorkflow()">
+    <ion-list>
+      <ion-list-header>Deine Zugangsdaten</ion-list-header>    
+      <ion-item>
+        <ion-label stacked>Veranstaltungscode</ion-label>
+        <ion-input type="text" placeholder="XXXXX-XXXX-XXXX" formControlName="eventCode" maxlength="15"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="settingsForm.controls.eventCode.pending && settingsForm.controls.eventCode.dirty">
+        <p>Veranstaltungscode wird geprüft ...</p>
+      </ion-item>
+      <ion-item *ngIf="!settingsForm.controls.eventCode.pending && !settingsForm.controls.eventCode.valid && settingsForm.controls.eventCode.dirty && settingsForm.controls.eventCode.errors.codeInvalid">
+        <p ion-text color="danger">Der Veranstaltungscode ist leider ungültig.</p>
+      </ion-item>
+      <ion-item text-wrap *ngIf="!settingsForm.controls.eventCode.pending && !settingsForm.controls.eventCode.valid && settingsForm.controls.eventCode.dirty && settingsForm.controls.eventCode.errors.pattern">
+        <p ion-text color="danger">Bitte gib den Code als Zahlenfolge im Format XXXXX-XXXX-XXXX ein.</p>
+      </ion-item>
+      <ion-item *ngIf="eventName && !settingsForm.controls.eventCode.pending && settingsForm.controls.eventCode.valid">
+          <p>Veranstaltung: <b>{{eventName}}</b></p>
+      </ion-item>
+      <ion-item text-wrap>
+        <p>Den Veranstaltungscode bekommst du von den Gastgebern.</p>
+      </ion-item>  
+      <ion-item>
+        <ion-label stacked>Dein Name</ion-label>
+        <ion-input type="text" placeholder="Wie heißt Du?" formControlName="userName" maxlength="20"></ion-input>
+      </ion-item>
+      <ion-item text-wrap *ngIf="!settingsForm.controls.userName.valid && !settingsForm.controls.userName.pending && settingsForm.controls.userName.dirty">
+        <p ion-text color="danger">Bitte verwende nur Buchstaben von A-Z und Ziffern für den Namen. Leerzeichen zwischen Namensteilen sind erlaubt, Z.B. 'Karla Kolumna".</p>
+      </ion-item>
+      <ion-item text-wrap>
+        <p>Deine Bilder werden in der Veranstaltung unter diesem Namen abgelegt.</p>
+      </ion-item>
+      <button ion-button full type="submit" [disabled]="!settingsForm.valid">Veranstaltung beitreten</button>
+    </ion-list>
+  </form>
 </ion-content>
