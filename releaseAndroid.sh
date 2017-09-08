@@ -1,0 +1,1 @@
+ionic cordova build android --prod --release --buildConfig fastlane/release-credentials/build.json
