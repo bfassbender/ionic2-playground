@@ -23,6 +23,7 @@ export class SharePage {
                private api: PortraitArchivApiProvider,
                private settings: SettingsProvider
               ) {
+                console.log("hello from SharePage");
   }
 
   ionViewDidEnter() {
@@ -39,8 +40,7 @@ export class SharePage {
           this.api.ladeGalerie(userSettings.eventCode).subscribe(galleryData => {
             this.eventName = galleryData.galerie.title;
             this.lastImageUrl = this.constructImageUrl(galleryData.images);
-            console.log(this.lastImageUrl);
-            console.debug(galleryData);
+            console.log(galleryData);
           });
         }
       })
@@ -52,7 +52,9 @@ export class SharePage {
       return undefined;
     }
     length = imageArray.length;
-    return decodeURIComponent(imageArray[length-1].baseUrl).replace("+","%20") + "/" + imageArray[length-1].detailUrl;
+    let imageUrl = decodeURIComponent(imageArray[length-2].baseUrl).replace(/\+/g,"%20") + "/" + imageArray[length-2].detailUrl;
+    console.log(imageUrl);
+    return imageUrl;
   }
 
   private dataLoadedAlready() : boolean {
