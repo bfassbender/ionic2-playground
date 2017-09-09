@@ -19,16 +19,18 @@ export class MyApp {
                private splashScreen : SplashScreen,
                private settingsProvider : SettingsProvider) {
 
-      settingsProvider.isIntroShown().then((introShown) => {
-          if(introShown){
-            this.enterMainApp();
-          } else {
-            this.enterIntroduction();
-          }
-        }).catch(err => {
-          console.error("Could not determine if we're running for the first time. " + JSON.stringify(err));
+      Promise.all([settingsProvider.isIntroShown(), settingsProvider.isSettingsCompleted()]).then(results => {
+        let isIntroShown = results[0];
+        let isSettingsCompleted = results[0];
+        if(isIntroShown && isSettingsCompleted) {
+          this.enterMainApp();
+        } else {
           this.enterIntroduction();
-        });
+        }
+      }).catch(err => {
+        console.error("Could not determine if we're running for the first time. " + JSON.stringify(err));
+        this.enterIntroduction();
+      });
   }
 
   enterIntroduction() {

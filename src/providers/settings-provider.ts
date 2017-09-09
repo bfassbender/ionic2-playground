@@ -25,6 +25,13 @@ export class SettingsProvider {
     });
   }
 
+  isSettingsCompleted() : Promise<boolean> {
+    return this.storage.get("eventSettings").then(eventSettings => {
+      console.debug(this.constructor.name + ": Loaded from storage - " + JSON.stringify(eventSettings));
+      return eventSettings.eventCode && eventSettings.userName;
+    });
+  }
+
   setIntroShown(introShown: boolean) {
     this.storage.set("introShown", introShown).then(() => {
       console.info(this.constructor.name + ": Saved 'introShown' with value '" + JSON.stringify(introShown)+"'");
