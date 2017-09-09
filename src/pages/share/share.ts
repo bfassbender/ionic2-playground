@@ -23,7 +23,6 @@ export class SharePage {
                private api: PortraitArchivApiProvider,
                private settings: SettingsProvider
               ) {
-                console.log("hello from SharePage");
   }
 
   ionViewDidEnter() {
@@ -40,7 +39,6 @@ export class SharePage {
           this.api.ladeGalerie(userSettings.eventCode).subscribe(galleryData => {
             this.eventName = galleryData.galerie.title;
             this.lastImageUrl = this.constructImageUrl(galleryData.images);
-            console.log(galleryData);
           });
         }
       })
