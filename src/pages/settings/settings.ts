@@ -41,7 +41,7 @@ export class SettingsPage {
   }
 
   changeEvent() {
-    this.appCtrl.getRootNav().setRoot(RegisterForEventPage);
+    this.navCtrl.push(RegisterForEventPage);
   }
 
   rewatchIntro() {
