@@ -19,7 +19,7 @@ export class MyApp {
                private splashScreen : SplashScreen,
                private settingsProvider : SettingsProvider) {
 
-      Promise.all([settingsProvider.isIntroShown(), settingsProvider.isSettingsCompleted()]).then(results => {
+      Promise.all([this.settingsProvider.isIntroShown(), this.settingsProvider.isSettingsCompleted()]).then(results => {
         let isIntroShown = results[0];
         let isSettingsCompleted = results[0];
         if(isIntroShown && isSettingsCompleted) {

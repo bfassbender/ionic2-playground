@@ -1,5 +1,5 @@
 import { Component, NgZone} from '@angular/core';
-import { NavParams, Platform, ToastController, Toast, ViewController} from 'ionic-angular';
+import { NavParams, ToastController, Toast, ViewController} from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileUploadResult, FileTransferError, FileTransferObject } from '@ionic-native/file-transfer';
 
 import 'rxjs/add/operator/toPromise';
@@ -22,8 +22,7 @@ export class GalleryPage {
   
   photo_uris: Array<string>;
 
-  constructor(private platform: Platform, 
-              private viewCtrl: ViewController,
+  constructor(private viewCtrl: ViewController,
               private navParams: NavParams, 
               private configProvider: ConfigProvider, 
               private transfer: FileTransfer, 
@@ -32,7 +31,7 @@ export class GalleryPage {
               private gaTracker : GoogleAnalyticsTracker,
               private settingsProvider : SettingsProvider){
     
-    this.photo_uris = navParams.get("photo_uris");
+    this.photo_uris = this.navParams.get("photo_uris");
 
     if(!this.photo_uris || this.photo_uris.length == 0) {
       this.sendToast("Du hast keine Bilder zum hochladen ausgewählt.");
