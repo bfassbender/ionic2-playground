@@ -89,5 +89,8 @@
             "ionic-plugin-keyboard": {},
             "cordova-plugin-app-version": {}
         }
+    },
+    "config": {
+        "ionic_webpack": "./webpack.config.js"
     }
 }

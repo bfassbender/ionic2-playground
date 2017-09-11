@@ -1,11 +1,10 @@
-import { Component, NgZone} from '@angular/core';
+import { Component, NgZone, Inject} from '@angular/core';
 import { NavParams, ToastController, Toast, ViewController} from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileUploadResult, FileTransferError, FileTransferObject } from '@ionic-native/file-transfer';
 
 import 'rxjs/add/operator/toPromise';
 
-import { ConfigProvider } from '../../providers/config-provider';
-import { ApiConfig } from '../../models/api-config';
+import { EnvVariables, ApiConfig } from '../../environment-variables/environment-variables.token';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { SettingsProvider } from '../../providers/settings-provider';
 
@@ -24,7 +23,7 @@ export class GalleryPage {
 
   constructor(private viewCtrl: ViewController,
               private navParams: NavParams, 
-              private configProvider: ConfigProvider, 
+              @Inject(EnvVariables) private config: ApiConfig, 
               private transfer: FileTransfer, 
               private ngZone: NgZone, 
               private toastCtrl: ToastController, 
@@ -61,14 +60,11 @@ export class GalleryPage {
     let fileEnding = photo_uri.substring(photo_uri.lastIndexOf('.'));
 
     let uploadOptionsPromise = this.fileUploadOptionsWithDefaultValues(fileEnding);
-    let configPromise = this.configProvider.getApiConfig().toPromise(); 
 
-    Promise.all([uploadOptionsPromise, configPromise]).then(values => {
-      console.info("Using the following parameters for upload: " + JSON.stringify(values[0]));
-      
+    uploadOptionsPromise.then(options => {      
       const fileTransfer: FileTransferObject = this.configureFileTransfer();
       
-      fileTransfer.upload(photo_uri, encodeURI(values[1].uploadUrl) , values[0])
+      fileTransfer.upload(photo_uri, encodeURI(this.config.uploadUrl) , options)
       .then((result: FileUploadResult) => {
         this.success(result); 
       }).catch((error: FileTransferError) => {
@@ -123,12 +119,10 @@ export class GalleryPage {
 
   private fileUploadOptionsWithDefaultValues(fileEnding : string = '.jpg') : Promise<FileUploadOptions> {
     let settingsPromise = this.settingsProvider.loadSettings();
-    let configPromise = this.configProvider.getApiConfig().toPromise();
 
-    let resultPromise : Promise<FileUploadOptions> = Promise.all([settingsPromise, configPromise]).then(values => {
-      let userSettings : any = values[0];
-      let appConfig : ApiConfig = values[1];
-      let subFolder = appConfig.defaultSubFolder;
+    let resultPromise : Promise<FileUploadOptions> = settingsPromise.then(values => {
+      let userSettings : any = values;
+      let subFolder = this.config.defaultSubFolder;
 
       if(userSettings.userName) {
         subFolder = userSettings.userName;
@@ -136,7 +130,7 @@ export class GalleryPage {
 
       return <FileUploadOptions> {
         params : {
-          "apikey" : appConfig.apikey,
+          "apikey" : this.config.apikey,
           "galerieCode" : userSettings.eventCode,
           "subFolder" : subFolder
         },

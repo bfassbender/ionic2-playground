@@ -5,19 +5,16 @@ import { FixedMockBackend, FixedMockConnection } from '../../testing/fixed-mock-
 import { Observable } from 'rxjs/Rx';
 
 import { PortraitArchivApiProvider } from './portrait-archiv-api';
-import { ConfigProvider } from '../config-provider';
 
 describe('Portrait Archiv API Provider', () => {
     let cut: PortraitArchivApiProvider;
     let mockBackend: FixedMockBackend
     let spy: jasmine.Spy;
-    let configProvider: ConfigProvider;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [ HttpModule ],
             providers: [ PortraitArchivApiProvider,
-                         ConfigProvider, 
                          FixedMockBackend, 
                          BaseRequestOptions, 
                          {
@@ -28,12 +25,7 @@ describe('Portrait Archiv API Provider', () => {
         }).compileComponents();
 
         mockBackend = TestBed.get(FixedMockBackend);
-        configProvider = TestBed.get(ConfigProvider);
         cut = TestBed.get(PortraitArchivApiProvider);
-
-        spyOn(configProvider, 'getApiConfig').and.returnValue(Observable.of({
-
-        }));
     });
 
     it('should be instanciated', () => {
