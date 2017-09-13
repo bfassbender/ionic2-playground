@@ -9,6 +9,8 @@
     }
   ],
   "integrations": {
-    "cordova": {}
-  }
+    "cordova": {},
+    "gulp": {}
+  },
+  "watchPatterns": []
 }
