@@ -6,7 +6,8 @@
 
 <ion-content no-bounce>
   <ion-list>
-    <ion-list-header>Aktuelle Veranstaltung: {{eventName}}</ion-list-header>
+    <ion-list-header>Aktuelle Veranstaltung</ion-list-header>
+    <ion-item>{{eventName}}</ion-item>
     <button ion-button full (click)="changeEvent()">Veranstaltung wechseln</button>
   </ion-list>
   <ion-list>
@@ -14,3 +15,9 @@
     <button ion-button full (click)="rewatchIntro()">Intro anschauen</button>
   </ion-list>
 </ion-content>
+
+<ion-footer> 
+  <ion-toolbar color="light">
+    <ion-title (click)="about()">Über Snapshare {{snapshareVersion}}</ion-title>
+  </ion-toolbar>
+</ion-footer>

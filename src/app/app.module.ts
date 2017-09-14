@@ -25,6 +25,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { GalleryPage } from '../pages/gallery/gallery';
 import { IntroductionPage } from '../pages/introduction/introduction';
 import { RegisterForEventPage } from '../pages/register-for-event/register-for-event'
+import { AboutPage } from '../pages/about/about'
 
 
 let pages = [
@@ -34,7 +35,8 @@ let pages = [
   TabsPage,
   GalleryPage,
   IntroductionPage,
-  RegisterForEventPage
+  RegisterForEventPage,
+  AboutPage
 ];
 
 let comps = [
