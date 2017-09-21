@@ -30,7 +30,7 @@
         "@ionic-native/status-bar": "4.2.1",
         "@ionic/storage": "2.0.1",
         "cordova-android": "6.2.3",
-        "cordova-ios": "4.5.0",
+        "cordova-ios": "git+https://github.com/apache/cordova-ios.git#b8835c63c910e046ca1072d58ee1d53734f1268f",
         "cordova-plugin-app-version": "0.1.9",
         "cordova-plugin-compat": "1.1.0",
         "cordova-plugin-device": "1.1.6",
