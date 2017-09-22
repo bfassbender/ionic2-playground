@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, Platform } from 'ionic-angular';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { GalleryPage } from '../gallery/gallery';
@@ -21,7 +21,8 @@ export class SharePage {
                private imagePicker : ImagePicker,
                private modalCtrl: ModalController,
                private api: PortraitArchivApiProvider,
-               private settings: SettingsProvider
+               private settings: SettingsProvider,
+               private platform: Platform
               ) {
   }
 
@@ -62,11 +63,13 @@ export class SharePage {
   openCameraRoll() {
     let options: ImagePickerOptions = {
       maximumImagesCount: 10
-      ,width: 3000
-      ,height: 3000
       ,quality: 80
     }
 
+    if(this.platform.is('android')) {
+      console.log("Running on Android, setting image quality to 100")
+      options.quality = 100;
+    }
 
     this.imagePicker.getPictures(options).then(
       photo_uris => {

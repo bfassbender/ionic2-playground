@@ -25,13 +25,13 @@ export class SettingsPage {
   constructor( private navCtrl: NavController, 
                private gaTracker : GoogleAnalyticsTracker,
                private settingsProvider : SettingsProvider,
-               public appCtrl: App,
+               private appCtrl: App,
                private platform: Platform,
                private appVersion: AppVersion,
                private api: PortraitArchivApiProvider
                ) {
-    platform.ready().then(() => {
-      if(platform.is('cordova')) {                 
+    this.platform.ready().then(() => {
+      if(this.platform.is('cordova')) {                 
         this.appVersion.getVersionNumber().then(version => {
           this.snapshareVersion = version;
         });
