@@ -56,6 +56,7 @@
         <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87" />
         <splash src="resources/ios/splash/Default@2x~universal~anyany.png" />
         <splash src="resources/ios/splash/Default@3x~universal~anyany.png" />
+        <icon height="1024" src="resources/ios/icon/icon-1024.png" width="1024" />
     </platform>
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
