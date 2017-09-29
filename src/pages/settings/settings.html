@@ -5,19 +5,20 @@
 </ion-header>
 
 <ion-content no-bounce>
-  <ion-list>
-    <ion-list-header>Aktuelle Veranstaltung</ion-list-header>
-    <ion-item>{{eventName}}</ion-item>
-    <button ion-button full (click)="changeEvent()">Veranstaltung wechseln</button>
-  </ion-list>
-  <ion-list>
-    <ion-list-header>Intro erneut ansehen</ion-list-header>
-    <button ion-button full (click)="rewatchIntro()">Intro anschauen</button>
-  </ion-list>
-</ion-content>
 
-<ion-footer> 
-  <ion-toolbar color="light">
-    <ion-title (click)="about()">Über Snapshare {{snapshareVersion}}</ion-title>
-  </ion-toolbar>
-</ion-footer>
+  <ion-item-group>
+    <ion-item-divider color="light">Veranstaltung</ion-item-divider>
+    <ion-item>
+      <ion-icon name='beer' item-start></ion-icon>
+      <strong>{{eventName}}</strong>
+      <ion-note item-end>{{settings?.eventCode}}</ion-note>
+    </ion-item>
+    <button ion-item (click)="changeEvent()">Veranstaltung wechseln</button>
+  </ion-item-group>
+
+  <ion-item-group>
+      <ion-item-divider color="light">Infos zur App</ion-item-divider>
+      <button ion-item (click)="rewatchIntro()"><ion-icon item-start name="film"></ion-icon>Intro erneut ansehen</button>
+      <button ion-item (click)="about()"><ion-icon item-start name="alert"></ion-icon>Über Snapshare {{snapshareVersion}}</button>
+  </ion-item-group>
+</ion-content>

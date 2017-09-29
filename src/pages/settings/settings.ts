@@ -18,7 +18,7 @@ import { AboutPage } from '../about/about';
 })
 export class SettingsPage {
 
-  public settings;
+  public settings = undefined;
   public snapshareVersion;
   public eventName;
 
