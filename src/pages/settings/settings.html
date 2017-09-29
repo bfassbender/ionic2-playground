@@ -9,12 +9,12 @@
   <ion-item-group>
     <ion-item-divider color="light">Veranstaltung</ion-item-divider>
     <ion-item>
-      <ion-icon name='beer' item-start></ion-icon>
-      <strong>{{eventName}}</strong>
-      <ion-note item-end>{{settings?.eventCode}}</ion-note>
+      <ion-icon name='wine' item-start></ion-icon>
+      <h2>{{eventName}}</h2>
+      <p>{{settings?.eventCode}}</p>
     </ion-item>
     <button ion-item (click)="changeEvent()"><ion-icon item-start name="swap"></ion-icon>Veranstaltung wechseln</button>
-    <button ion-item (click)="changeEvent()"><ion-icon item-start name="log-out"></ion-icon>Veranstaltung verlassen</button>
+    <!--button ion-item (click)="changeEvent()"><ion-icon item-start name="log-out"></ion-icon>Veranstaltung verlassen</button-->
   </ion-item-group>
 
   <ion-item-group>

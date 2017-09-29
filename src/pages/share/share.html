@@ -7,7 +7,11 @@
 </ion-header>
 
 <ion-content no-bounce>
-  <p padding>Hallo <b>{{userName}}</b>,
-  du teilst deine Fotos auf der Veranstaltung <a href="https://www.portrait-archiv.com/home?vCode={{eventCode}}"><b>{{eventName}}</b></a>.</p>
-  <button ion-button full (click)="openCameraRoll()">Fotos auswählen</button>
+
+  <ion-item-group>
+      <ion-item-divider text-wrap color="light">Hallo <b>{{userName}}</b>,
+        du teilst deine Fotos auf der Veranstaltung <a href="https://www.portrait-archiv.com/home?vCode={{eventCode}}"><b>{{eventName}}</b></a>.</ion-item-divider>
+      <div padding>
+      <button ion-button icon-left block (click)="openCameraRoll()"><ion-icon item-start name="images"></ion-icon>Fotos auswählen</button></div>
+    </ion-item-group>
 </ion-content>
