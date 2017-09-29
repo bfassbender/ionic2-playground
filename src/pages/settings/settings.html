@@ -13,7 +13,8 @@
       <strong>{{eventName}}</strong>
       <ion-note item-end>{{settings?.eventCode}}</ion-note>
     </ion-item>
-    <button ion-item (click)="changeEvent()">Veranstaltung wechseln</button>
+    <button ion-item (click)="changeEvent()"><ion-icon item-start name="swap"></ion-icon>Veranstaltung wechseln</button>
+    <button ion-item (click)="changeEvent()"><ion-icon item-start name="log-out"></ion-icon>Veranstaltung verlassen</button>
   </ion-item-group>
 
   <ion-item-group>
