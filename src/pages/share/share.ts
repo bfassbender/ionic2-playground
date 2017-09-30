@@ -67,8 +67,8 @@ export class SharePage {
     }
 
     if(this.platform.is('android')) {
-      console.log("Running on Android, setting image quality to 100")
-      options.quality = 100;
+      options.quality = 90;
+      console.log("Running on Android, setting image quality to " + options.quality)
     }
 
     this.imagePicker.getPictures(options).then(

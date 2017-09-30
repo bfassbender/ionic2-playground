@@ -151,8 +151,8 @@ export class GalleryPage {
 
     let toast : Toast = this.toastCtrl.create({
       message: message,
-      position: "top",
-      duration: 2000,
+      position: "middle",
+      duration: 3000,
       showCloseButton: true,
       cssClass: cssClass
     });
