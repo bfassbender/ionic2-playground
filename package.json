@@ -37,7 +37,7 @@
         "cordova-plugin-file": "4.3.3",
         "cordova-plugin-file-transfer": "1.6.3",
         "cordova-plugin-google-analytics": "1.8.3",
-        "com.synconset.imagepicker": "git+https://github.com/Telerik-Verified-Plugins/ImagePicker.git",
+        "cordova-plugin-telerik-imagepicker": "git+https://github.com/bfassbender/ImagePicker.git",
         "cordova-plugin-splashscreen": "4.0.3",
         "cordova-plugin-statusbar": "2.2.3",
         "cordova-plugin-whitelist": "1.3.2",
@@ -79,8 +79,8 @@
             "cordova-plugin-device": {},
             "cordova-plugin-file-transfer": {},
             "cordova-plugin-google-analytics": {},
-            "com.synconset.imagepicker": {
-                "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
+            "cordova-plugin-telerik-imagepicker": {
+                "PHOTO_LIBRARY_USAGE_DESCRIPTION": "Zum Auswählen der Bilder, die du in SnapShare teilen möchtest."
             },
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
