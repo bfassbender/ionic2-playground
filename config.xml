@@ -79,8 +79,8 @@
     </feature>
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.1" />
-    <plugin name="com.synconset.imagepicker" spec="git+https://github.com/Telerik-Verified-Plugins/ImagePicker.git">
-        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
+    <plugin name="cordova-plugin-telerik-imagepicker" spec="git+https://github.com/bfassbender/ImagePicker.git">
+        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="Zum Auswählen der Bilder, die du in SnapShare teilen möchtest." />
     </plugin>
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
     <plugin name="cordova-plugin-device" spec="1.1.6" />
