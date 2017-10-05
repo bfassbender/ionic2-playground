@@ -1,6 +1,6 @@
 {
     "name": "snapshare",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "description": "SnapShare: Easily share your party pictures on portrait-archiv.com",
     "author": "Bernd Faßbender",
     "homepage": "https://www.github.com/bfassbender",
@@ -23,6 +23,7 @@
         "@angular/platform-browser-dynamic": "4.4.3",
         "@ionic-native/app-version": "4.3.0",
         "@ionic-native/core": "4.3.0",
+        "@ionic-native/file": "4.3.0",
         "@ionic-native/file-transfer": "4.3.0",
         "@ionic-native/google-analytics": "4.3.0",
         "@ionic-native/image-picker": "4.3.0",
@@ -87,7 +88,8 @@
             "cordova-sqlite-storage": {},
             "ionic-plugin-keyboard": {},
             "cordova-plugin-app-version": {},
-            "cordova-plugin-whitelist": {}
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-file": {}
         }
     },
     "config": {

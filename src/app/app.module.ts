@@ -11,6 +11,7 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { AppVersion } from '@ionic-native/app-version';
+import { File } from '@ionic-native/file';
 
 import { EnvironmentsModule } from '../environment-variables/environment-variables.module';
 import { GoogleAnalyticsTracker } from '../providers/google-analytics-tracker';
@@ -48,6 +49,7 @@ let providers = [
   SplashScreen,
   ImagePicker,
   FileTransfer,
+  File,
   GoogleAnalytics,
   AppVersion,
   PortraitArchivApiProvider,

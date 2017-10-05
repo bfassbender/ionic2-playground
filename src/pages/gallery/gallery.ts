@@ -1,6 +1,7 @@
 import { Component, NgZone, Inject} from '@angular/core';
 import { NavParams, ToastController, Toast, ViewController} from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileUploadResult, FileTransferError, FileTransferObject } from '@ionic-native/file-transfer';
+import { File, RemoveResult } from '@ionic-native/file';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -19,7 +20,7 @@ export class GalleryPage {
   current_photo_index: number = 1;
   total_to_upload: number;
   
-  photo_uris: Array<string>;
+  photo_uris: Array<string> = [];
 
   constructor(private viewCtrl: ViewController,
               private navParams: NavParams, 
@@ -28,7 +29,8 @@ export class GalleryPage {
               private ngZone: NgZone, 
               private toastCtrl: ToastController, 
               private gaTracker : GoogleAnalyticsTracker,
-              private settingsProvider : SettingsProvider){
+              private settingsProvider : SettingsProvider,
+              private file : File ){
     
     this.photo_uris = this.navParams.get("photo_uris");
 
@@ -85,6 +87,7 @@ export class GalleryPage {
       this.state_uploading = false;
       console.info("GalleryPage upload completed. Uploaded " + this.total_to_upload + " images.");
       this.gaTracker.trackEvent("Photoset", "upload finished", "" , this.total_to_upload);
+      this.deleteTempFiles();
       this.closePage().then(() => {
         this.sendToast("Deine Fotos wurden hochgeladen.");
       });
@@ -92,12 +95,12 @@ export class GalleryPage {
   }
 
   private failed (err: FileTransferError) : void {
-    let logString = "Upload failed for file " + err.source + ". " + JSON.stringify(err);
-    console.error(logString);
-    this.gaTracker.trackException(logString ,false);
-   
+    let logString = "Upload failed for file " + err.source + ". " + err.exception + ' Code:' + err.code;
+    this.trackErrorNonFatal(logString);
+    
     this.uploadProgress = 0;
     this.state_uploading = false;
+    this.deleteTempFiles();
     this.closePage().then(() => {
       this.sendToast("Konnte Deine Fotos leider nicht hochladen. Fehlercode: " + err.code, true);
     });
@@ -165,6 +168,27 @@ export class GalleryPage {
       var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
       return v.toString(16);
     });
+  }
+
+  deleteTempFiles() {
+    if(this.photo_uris) {
+      for(let photo_uri of this.photo_uris) {
+        try {
+          let basepath = photo_uri.substring(0,photo_uri.lastIndexOf('/'));
+          let filename = photo_uri.substring(photo_uri.lastIndexOf('/')+1);
+          this.file.removeFile(basepath, filename)
+            .then((res : RemoveResult) => console.log("Deleted '" + res.fileRemoved.nativeURL + "' - " + res.success))
+            .catch(err => this.trackErrorNonFatal("Failed to delete temp file - " + JSON.stringify(err)));
+        } catch (e) {
+          this.trackErrorNonFatal("Could not delete temp file " + photo_uri + ' - ' + JSON.stringify(e));
+        }
+      }
+    }
+  }
+
+  trackErrorNonFatal(message : string) {
+    console.warn(message);
+    this.gaTracker.trackException(message, false);
   }
 
   closePage () : Promise<any>  {
