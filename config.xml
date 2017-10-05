@@ -82,6 +82,7 @@
     </feature>
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.1" />
+    <plugin name="cordova-custom-config" spec="4.0.2" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
     <plugin name="cordova-plugin-device" spec="1.1.6" />
     <plugin name="cordova-plugin-file" spec="4.3.3" />
