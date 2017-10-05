@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, Platform } from 'ionic-angular';
-import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
+import { ImagePicker } from '@ionic-native/image-picker';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
 import { GalleryPage } from '../gallery/gallery';
 import { PortraitArchivApiProvider } from '../../providers/portrait-archiv-api/portrait-archiv-api'
@@ -61,8 +61,10 @@ export class SharePage {
   }
 
   openCameraRoll() {
-    let options: ImagePickerOptions = {
+    //I do not use the ImagePickerOptions Type here, as the "title" attribute is not defined there.
+    let options = {
       maximumImagesCount: 10
+      ,title: "Bilderauswahl"
       ,quality: 80
     }
 
