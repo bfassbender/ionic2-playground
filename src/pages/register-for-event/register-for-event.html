@@ -40,7 +40,9 @@
       <ion-item text-wrap>
         <p>Deine Bilder werden in der Veranstaltung unter diesem Namen abgelegt.</p>
       </ion-item>
-      <button ion-button full type="submit" [disabled]="!settingsForm.valid">Veranstaltung beitreten</button>
+      
+      <div padding><button ion-button icon-left block type="submit" [disabled]="!settingsForm.valid"><ion-icon item-start name="log-in"></ion-icon>Veranstaltung beitreten</button></div>
+        
     </ion-list>
   </form>
 </ion-content>
