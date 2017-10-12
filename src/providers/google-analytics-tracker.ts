@@ -15,11 +15,11 @@ export class GoogleAnalyticsTracker {
           console.info("Application Version: " + version);          
           ga.startTrackerWithId(this.config.gaKey)
             .then(() => {
-              console.log('Google analytics is ready now');
-              ga.setAllowIDFACollection(true);
+              ga.setAllowIDFACollection(false);
               ga.setAnonymizeIp(true);
               ga.setAppVersion(version);
               ga.enableUncaughtExceptionReporting(true);
+              console.log('Google analytics is ready now');
             });
         }).catch(e => console.log('Error starting GoogleAnalytics', e)); 
       }      
