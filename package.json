@@ -1,7 +1,7 @@
 {
   "name": "snapshare",
   "version": "0.7.0",
-  "description": "SnapShare: Easily share your party pictures on portrait-archiv.com",
+  "description": "SnapShare für Portrait-Archiv: Easily share your party pictures on portrait-archiv.com",
   "author": "Bernd Faßbender",
   "homepage": "https://www.github.com/bfassbender",
   "private": true,
@@ -47,7 +47,8 @@
     "ionicons": "3.0.0",
     "rxjs": "5.4.3",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.18"
+    "zone.js": "0.8.18",
+    "cordova-ios": "https://github.com/apache/cordova-ios.git#4.5.2"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.0.0",
@@ -57,7 +58,7 @@
     "gulp": "3.9.1",
     "gulp-cordova-bump": "git+https://github.com/bfassbender/gulp-cordova-bump.git",
     "html-loader": "0.5.0",
-    "ionic": "3.13.0",
+    "ionic": "3.13.1",
     "jasmine": "2.7.0",
     "karma": "1.7.0",
     "karma-chrome-launcher": "2.2.0",
