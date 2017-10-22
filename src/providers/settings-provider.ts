@@ -25,6 +25,19 @@ export class SettingsProvider {
     });
   }
 
+  isGoogleAnalyticsOptOut() : Promise<boolean> {
+    return this.storage.get("googleAnalyticsOptOut").then(data => {
+      console.info(this.constructor.name + ": googleAnalyticsOptOut from storage is " + data);
+      return data;
+    });
+  }
+
+  setGoogleAnalyticsOptOut(active : boolean) {
+    return this.storage.set("googleAnalyticsOptOut", active).then(data => {
+      console.debug(this.constructor.name + ": Saved googleAnalyticsOptOut [" + active + "]");
+    });
+  }
+
   isSettingsCompleted() : Promise<boolean> {
     return this.storage.get("eventSettings").then(eventSettings => {
       console.debug(this.constructor.name + ": Loaded from storage - " + JSON.stringify(eventSettings));

@@ -21,6 +21,7 @@ export class SettingsPage {
   public settings = undefined;
   public snapshareVersion;
   public eventName;
+  public googleAnalyticsActive : boolean;
 
   constructor( private navCtrl: NavController, 
                private gaTracker : GoogleAnalyticsTracker,
@@ -40,6 +41,8 @@ export class SettingsPage {
   }
 
   ionViewWillEnter() {
+    this.googleAnalyticsActive = this.gaTracker.isTracking();
+
     this.settingsProvider.loadSettings().then(settings => {
       if(settings) {
         console.debug(this.constructor.name + ": Current settings - " + JSON.stringify(settings));
@@ -48,12 +51,20 @@ export class SettingsPage {
         this.api.ladeGalerie(settings.eventCode).subscribe(galleryData => {
           this.eventName = galleryData.galerie.title;
         });
-
       }
       else {
         console.info("No settings found in storage");
       }
     });
+  }
+
+  toggleGoogleAnalytics() {
+    if(this.googleAnalyticsActive) {
+      this.gaTracker.enableTracking();
+    }
+    else {
+      this.gaTracker.disableTracking(); 
+    }    
   }
 
   ionViewDidEnter() {

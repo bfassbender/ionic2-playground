@@ -20,6 +20,13 @@
   <ion-item-group>
       <ion-item-divider color="light">Infos zur App</ion-item-divider>
       <button ion-item (click)="rewatchIntro()"><ion-icon item-start name="film"></ion-icon>Intro erneut ansehen</button>
+      <a ion-item href="https://snapshare.de/snapshare-app-datenschutz"><ion-icon item-start name="hand"></ion-icon>Datenschutz</a>
       <button ion-item (click)="about()"><ion-icon item-start name="alert"></ion-icon>Über Snapshare {{snapshareVersion}}</button>
   </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider color="light">App Analyse</ion-item-divider>
+    <ion-item><ion-icon name='stats' item-start></ion-icon>
+    <ion-label>Google Analytics</ion-label><ion-toggle [(ngModel)]="googleAnalyticsActive" (ionChange)="toggleGoogleAnalytics()"></ion-toggle></ion-item>
+</ion-item-group>
 </ion-content>
