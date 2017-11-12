@@ -27,4 +27,18 @@ export class PortraitArchivApiProvider {
       });
   }
 
+  ladeBilder(veranstaltungsCode:String, folderName: String){    
+    return this.http.get(
+        this.config.loadGalleryUrl 
+        + '?galerieCode=' + veranstaltungsCode
+        + '&apikey=' + this.config.apikey
+        + '&folder=' + folderName
+        + '&sort=UPLOAD')
+      .map(res => res.json())
+      .catch(err => {
+        console.error("API Error. HTTP " + err.status + " - Response " + err._body);
+        return Observable.throw(err);
+      });
+  }
+
 }

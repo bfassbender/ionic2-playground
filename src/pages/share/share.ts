@@ -39,22 +39,12 @@ export class SharePage {
           this.eventCode = userSettings.eventCode;
           this.api.ladeGalerie(userSettings.eventCode).subscribe(galleryData => {
             this.eventName = galleryData.galerie.title;
-            //Not used currently this.lastImageUrl = this.constructImageUrl(galleryData.images);
           });
         }
       })
     }
   }
 
-  // private constructImageUrl(imageArray: any[]): String {
-  //   if(imageArray == null || imageArray.length <= 0) {
-  //     return undefined;
-  //   }
-  //   length = imageArray.length;
-  //   let imageUrl = decodeURIComponent(imageArray[length-2].baseUrl).replace(/\+/g,"%20") + "/" + imageArray[length-2].detailUrl;
-  //   console.log(imageUrl);
-  //   return imageUrl;
-  // }
 
   private dataLoadedAlready() : boolean {
     return (this.eventCode != null && this.eventName != null && this.userName != null);

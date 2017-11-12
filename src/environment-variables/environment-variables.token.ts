@@ -7,6 +7,7 @@ export interface ApiConfig {
   uploadUrl: string;
   checkAccessUrl: string;
   loadGalleryUrl: string;
+  loadPicturesUrl: string;
   apikey: string;
   defaultSubFolder: string;
   gaKey: string;
