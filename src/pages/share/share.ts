@@ -7,15 +7,17 @@ import { PortraitArchivApiProvider } from '../../providers/portrait-archiv-api/p
 import { SettingsProvider } from '../../providers/settings-provider'
 
 @Component({
-  templateUrl: 'share.html'
+  selector: 'page-share',
+  templateUrl: 'share.html' 
 })
 export class SharePage {
 
-  public eventName: String;
-  public userName: String;
-  public eventCode: String;
-  public lastImageUrl: String;
+  public eventName: string;
+  public images: string[];
 
+  public userName: string;
+  public eventCode: string;
+  
   constructor( public navCtrl: NavController, 
                private gaTracker : GoogleAnalyticsTracker,
                private imagePicker : ImagePicker,
@@ -40,11 +42,25 @@ export class SharePage {
           this.api.ladeGalerie(userSettings.eventCode).subscribe(galleryData => {
             this.eventName = galleryData.galerie.title;
           });
+          this.api.ladeBilder(userSettings.eventCode, userSettings.userName).subscribe(imageListResult => {
+            console.log(imageListResult);
+            let imagesList = imageListResult.images;
+            this.escapeBlanksInBaseUrls(imagesList);
+            this.images = imagesList;
+          })
         }
       })
     }
   }
 
+  private escapeBlanksInBaseUrls(imageArray: any[]) {
+    for (var image of imageArray) {
+      let dirtyBaseUrl = image.baseUrl;
+      let cleanedBaseUrl = dirtyBaseUrl.replace(/ /g,"%20");
+      image.baseUrl = cleanedBaseUrl;
+      console.log(image);
+    }
+  }
 
   private dataLoadedAlready() : boolean {
     return (this.eventCode != null && this.eventName != null && this.userName != null);
