@@ -1,89 +1,47 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions, ResponseType } from "@angular/http";
-import { FixedMockBackend, FixedMockConnection } from '../../testing/fixed-mock-backend';
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { Observable } from 'rxjs/Rx';
 
 import { PortraitArchivApiProvider } from './portrait-archiv-api';
+import { EnvironmentsModule } from '../../environment-variables/environment-variables.module';
 
 describe('Portrait Archiv API Provider', () => {
     let cut: PortraitArchivApiProvider;
-    let mockBackend: FixedMockBackend
-    let spy: jasmine.Spy;
-
+    let httpMock: HttpTestingController;
+    
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ HttpModule ],
-            providers: [ PortraitArchivApiProvider,
-                         FixedMockBackend, 
-                         BaseRequestOptions, 
-                         {
-                            provide: Http,
-                            useFactory: (backend, options) => new Http(backend, options),
-                            deps: [FixedMockBackend, BaseRequestOptions]
-                         } ]
-        }).compileComponents();
+            imports: [ HttpClientTestingModule, EnvironmentsModule ],
+            providers: [ PortraitArchivApiProvider, ]
+            });
 
-        mockBackend = TestBed.get(FixedMockBackend);
+        
         cut = TestBed.get(PortraitArchivApiProvider);
+        httpMock = TestBed.get(HttpTestingController);
     });
 
     it('should be instanciated', () => {
         expect(cut).toBeTruthy();
     });
 
-    it('validateVeranstaltungsCode() should return the response data on HTTP 200', fakeAsync(() => {
+    it('validateVeranstaltungsCode() should return the response data on HTTP 200', () => {
 
         //Return fake success response according to http://api.portrait-service.com/#api-accountService-checkAccess
-        let mockResponsePayload = "success:true";
-        let mockResponseCode = 200;
-        
-        mockBackend.connections.subscribe( (connection : FixedMockConnection) => {
-            connection.mockRespond(new Response(<ResponseOptions>{
-                status: mockResponseCode,
-                body: JSON.stringify(mockResponsePayload)
-            }));
+        let mockResponse = { "success":true };
+
+        cut.validateVeranstaltungsCode("some-valid-veranstaltungscode").subscribe(res => {
+            expect(res).toBe(mockResponse);
         });
-
-        let response;
-
-        cut.validateVeranstaltungsCode("some-valid-veranstaltungscode").subscribe(data => {
-            response = data;
-        })
-
-        tick();
-
-        expect(response).toBe("success:true");
-    }));
-
-    it('validateVeranstaltungsCode() should return an error on a response other than HTTP 200-299', fakeAsync(() => {
-
-       //Return fake success response according to http://api.portrait-service.com/#api-accountService-checkAccess
-        let mockResponsePayload = "";
-        let mockResponseCode = 500;
-
-        mockBackend.connections.subscribe( connection => {
-            let response = new Response(<ResponseOptions>{
-                status: mockResponseCode,
-                body: JSON.stringify(mockResponsePayload)
-            });
-            response.type = ResponseType.Error;
-            connection.mockRespond(response);
-        });
-
-        let error;
-
-        cut.validateVeranstaltungsCode("some-valid-veranstaltungscode").subscribe(
-            () => {},
-            err => {
-                console.log("Error!");
-                error = err;
-            }
-        );
         
-        tick();
+        let validateVeranstaltungsCodeRequest = httpMock.expectOne({
+            url: '/rest/accountService/checkAccess?apikey=fa25kfad89hasdj3bZv&galerieCode=some-valid-veranstaltungscode',
+            method: 'GET'
+          });
+        validateVeranstaltungsCodeRequest.flush(mockResponse);
+        httpMock.verify();
+    });
 
-        expect(error).toBe("success:true");
-    }));
+  
 });
 
