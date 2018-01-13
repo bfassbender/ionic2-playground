@@ -8,21 +8,18 @@
 
 <ion-content no-bounce>
 
-  <ion-item-group>
+  <ion-item-group *ngIf="eventCode">
     <ion-item-divider text-wrap color="light">Hallo <b>{{userName}}</b>,
       du teilst deine Fotos auf der Veranstaltung <a href="https://www.portrait-archiv.com/home?vCode={{eventCode}}"><b>{{eventName}}</b></a>.</ion-item-divider>
     <div padding>
     <button ion-button icon-left block (click)="openCameraRoll()"><ion-icon item-start name="images"></ion-icon>Fotos auswählen</button></div>
-    
   </ion-item-group>
 
-  <ion-item-group>
+  <ion-item-group *ngIf="imageUrlStyles?.length">
     <ion-item-divider text-wrap color="light">Zuletzt von dir hochgeladene Fotos</ion-item-divider>
   </ion-item-group>
-  <ion-row>
-    <ion-col col-3 *ngFor="let image of images">
-      <img  [src]="image.baseUrl + '/' + image.detailUrl"/>
-    </ion-col>
-  </ion-row>
+
+  <div *ngFor="let style of imageUrlStyles" class="gal-square gal-bg" [style]="style">
+  </div>
 
 </ion-content>

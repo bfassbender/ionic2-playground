@@ -192,6 +192,6 @@ export class GalleryPage {
   }
 
   closePage () : Promise<any>  {
-    return this.viewCtrl.dismiss();    
+    return this.viewCtrl.dismiss();
   }
 }

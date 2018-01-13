@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SafeStyle } from '@angular/platform-browser';
 import { NavController, ModalController, Platform } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { GoogleAnalyticsTracker} from '../../providers/google-analytics-tracker';
@@ -13,7 +15,7 @@ import { SettingsProvider } from '../../providers/settings-provider'
 export class SharePage {
 
   public eventName: string;
-  public images: string[];
+  public imageUrlStyles: SafeStyle[];
 
   public userName: string;
   public eventCode: string;
@@ -24,7 +26,8 @@ export class SharePage {
                private modalCtrl: ModalController,
                private api: PortraitArchivApiProvider,
                private settings: SettingsProvider,
-               private platform: Platform
+               private platform: Platform,
+               private sanitizer: DomSanitizer
               ) {
   }
 
@@ -33,7 +36,7 @@ export class SharePage {
   }
 
   ionViewWillEnter() {
-    if(!this.dataLoadedAlready()) {
+    if(!this.settingsLoadedAlready()) {
       this.settings.loadSettings().then(userSettings => {
         if(userSettings != null) {
           console.debug(userSettings);
@@ -42,27 +45,38 @@ export class SharePage {
           this.api.ladeGalerie(userSettings.eventCode).subscribe(galleryData => {
             this.eventName = galleryData.galerie.title;
           });
-          this.api.ladeBilder(userSettings.eventCode, userSettings.userName).subscribe(imageListResult => {
-            console.log(imageListResult);
-            let imagesList = imageListResult.images;
-            this.escapeBlanksInBaseUrls(imagesList);
-            this.images = imagesList;
-          })
+          this.ladeBilder(this.eventCode, this.userName);
         }
       })
     }
-  }
-
-  private escapeBlanksInBaseUrls(imageArray: any[]) {
-    for (var image of imageArray) {
-      let dirtyBaseUrl = image.baseUrl;
-      let cleanedBaseUrl = dirtyBaseUrl.replace(/ /g,"%20");
-      image.baseUrl = cleanedBaseUrl;
-      console.log(image);
+    else {
+      this.ladeBilder(this.eventCode, this.userName);
     }
   }
 
-  private dataLoadedAlready() : boolean {
+  private ladeBilder(_eventCode: string, _userName: string) {
+    console.log("Lade Bilder...");
+    this.api.ladeBilder(_eventCode, _userName).subscribe(imageListResult => {
+      let imagesList = imageListResult.images;
+      this.escapeBlanksInBaseUrls(imagesList);
+      this.imageUrlStyles = [];
+      for (let image of imagesList) {
+        let unsafeImageUrl = "background-image: url('" + image.baseUrl + '/' + image.detailUrl + "')";
+        let safeImageUrl = this.sanitizer.bypassSecurityTrustStyle(unsafeImageUrl);
+        this.imageUrlStyles.push(safeImageUrl);
+      }
+    })
+  }
+
+  private escapeBlanksInBaseUrls(imageArray: any[]) {
+    for (let image of imageArray) {
+      let dirtyBaseUrl = image.baseUrl;
+      let cleanedBaseUrl = dirtyBaseUrl.replace(/ /g,"%20");
+      image.baseUrl = cleanedBaseUrl;
+    }
+  }
+
+  private settingsLoadedAlready() : boolean {
     return (this.eventCode != null && this.eventName != null && this.userName != null);
   }
 

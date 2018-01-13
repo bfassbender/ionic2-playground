@@ -1,4 +1,19 @@
 
 page-share {
 
+    .gal-square {
+        float:left;
+        position: relative;
+        width: 24%;
+        padding-bottom : 24%; /* = width for a 1:1 aspect ratio */
+        margin:0.5%;
+        overflow:hidden;
+    }
+    /*  For responsive images as background */
+    
+    .gal-bg{
+        background-position:center center;
+        background-repeat:no-repeat;
+        background-size:cover; /* you change this to "contain" if you don't want the images to be cropped */
+    }
 }
