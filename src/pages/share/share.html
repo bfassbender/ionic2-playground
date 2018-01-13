@@ -8,6 +8,15 @@
 
 <ion-content no-bounce>
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Ziehe zum Aktualisieren"
+      refreshingSpinner="circles"
+      refreshingText="Aktualisiere ...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-item-group *ngIf="eventCode">
     <ion-item-divider text-wrap color="light">Hallo <b>{{userName}}</b>,
       du teilst deine Fotos auf der Veranstaltung <a href="https://www.portrait-archiv.com/home?vCode={{eventCode}}"><b>{{eventName}}</b></a>.</ion-item-divider>

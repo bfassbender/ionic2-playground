@@ -80,6 +80,15 @@ export class SharePage {
     return (this.eventCode != null && this.eventName != null && this.userName != null);
   }
 
+  doRefresh(refresher) {
+    console.log('Begin refreshing images', refresher);
+    setTimeout(() => {
+      this.ladeBilder(this.eventCode, this.userName);
+      console.log('End refreshing images');
+      refresher.complete();
+    }, 500);
+  }
+
   openCameraRoll() {
     //I do not use the ImagePickerOptions Type here, as the "title" attribute is not defined there.
     let options = {
